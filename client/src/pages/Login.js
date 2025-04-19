@@ -33,7 +33,7 @@ const Login = () => {
       const data = await res.json();
 
       if (res.ok) {
-        toast(data.message);
+        toast("Login successful!");
         window.location.href = "/";
       } else {
         toast(data.message);

@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
+import { Dashboard } from "../DashBoard/DashBoard";
 
 const HomePage = () => {
   return (
     <div>
+      <Navbar />
+      <Dashboard />
       {/* Hero Section */}
       <section className="bg-light py-5 text-center">
         <div className="container">

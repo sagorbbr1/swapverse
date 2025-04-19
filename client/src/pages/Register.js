@@ -31,7 +31,8 @@ const Register = () => {
       const data = await res.json();
       console.log("Response data:", data);
       if (res.ok) {
-        toast(data.message);
+        toast("Registration successful!");
+        window.location.href = "/";
       } else {
         toast(data.message);
       }
