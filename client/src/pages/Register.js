@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import logo from "../logo.jpg";
+import { Link } from "react-router";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -119,6 +120,11 @@ const Register = () => {
         >
           Register
         </button>
+
+        <p className="mx-auto mt-3 text-center">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
+
         <ToastContainer />
       </form>
     </div>
