@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import { useAuth } from "../AuthContext/AuthContext";
 
+import ItemList from "../ItemList/ItemList";
+
 const HomePage = () => {
   const { user } = useAuth();
   return (
@@ -80,6 +82,8 @@ const HomePage = () => {
       {user && (
         <>
           <Navbar />
+
+          <ItemList />
         </>
       )}
     </>
