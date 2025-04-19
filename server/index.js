@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const itemRoutes = require("./routes/item");
+const swapRoutes = require("./routes/swap");
 const User = require("./models/User");
 
 const { verifyToken } = require("./routes/ProtectedRoute");
@@ -28,10 +29,13 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", itemRoutes);
+app.use("/api", swapRoutes);
 
 app.get("/api/items", async (req, res) => {
   try {
-    const items = await Item.find().sort({ createdAt: -1 });
+    const items = await Item.find()
+      .populate("user", "fullname")
+      .sort({ createdAt: -1 });
     res.json(items);
   } catch (err) {
     res

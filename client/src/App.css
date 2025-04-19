@@ -23,3 +23,9 @@ a {
   align-items: center;
   height: 100vh;
 }
+
+.close-btn,
+.back-btn {
+  font-size: 23px;
+  cursor: pointer;
+}

@@ -47,10 +47,11 @@ router.post(
 );
 
 // UPDATE ITEM
-router.put("/:id", authenticate, upload.single("image"), async (req, res) => {
+router.put("/items/:id", authenticate, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ message: "Item not found." });
+
     if (item.user.toString() !== req.user.id)
       return res.status(403).json({ message: "Unauthorized." });
 
@@ -62,13 +63,26 @@ router.put("/:id", authenticate, upload.single("image"), async (req, res) => {
     item.condition = condition;
     item.swapWishList = swapWishList;
 
-    if (req.file) {
-      item.image = req.file.filename;
-    }
-
     await item.save();
-    res.json(item);
+    res.status(200).json(item);
   } catch (err) {
+    console.error("Error editing item:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+router.delete("/items/:id", authenticate, async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) return res.status(404).json({ message: "Item not found." });
+
+    if (item.user.toString() !== req.user.id)
+      return res.status(403).json({ message: "Unauthorized." });
+
+    await item.deleteOne();
+    res.status(200).json({ message: "Item deleted successfully." });
+  } catch (err) {
+    console.error("Error deleting item:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });

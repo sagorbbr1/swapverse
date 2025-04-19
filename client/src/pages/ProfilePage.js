@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar/Navbar";
+import { XOctagon } from "react-bootstrap-icons";
+import { Link } from "react-router";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -77,7 +79,13 @@ const ProfilePage = () => {
       <div className="container my-5">
         <div className="d-flex justify-content-center">
           <div className="col-md-6 shadow-lg p-4 rounded bg-white d-flex flex-column">
-            <h2 className="mb-4">User Profile</h2>
+            <div className="d-flex justify-content-between align-items-center mb-5">
+              <h2 className="m-0 text-primary">User Profile</h2>
+
+              <Link className="me-2" to="/">
+                <XOctagon className=" close-btn text-danger" />
+              </Link>
+            </div>
             <div className="d-flex align-items-center gap-3 mb-3">
               <img
                 src={user.avatar || "https://i.postimg.cc/hvvfhPTG/avater.png"}

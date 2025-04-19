@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../Navbar/Navbar";
 import { Link } from "react-router";
+import { XOctagon } from "react-bootstrap-icons";
 
 const ItemForm = () => {
   const [formData, setFormData] = useState({
@@ -85,10 +86,13 @@ const ItemForm = () => {
     <>
       <Navbar />
       <div className="container my-4" style={{ maxWidth: "600px" }}>
-        <h3>
-          {" "}
-          <Link>Previous</Link> Create New Item
-        </h3>
+        <div className="d-flex justify-content-between align-items-center mb-5">
+          <h3 className="text-primary">Create New Item</h3>
+          <Link className="me-2" to="/">
+            <XOctagon className=" close-btn text-danger" />
+          </Link>
+        </div>
+
         <form
           className="shadow-lg p-4 rounded bg-white"
           onSubmit={handleSubmit}

@@ -6,8 +6,9 @@ import Register from "./pages/Register";
 import NoPage from "./pages/NotFound";
 import { AuthProvider } from "./components/AuthContext/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
-import ItemList from "./components/ItemList/ItemList";
+
 import ItemForm from "./components/ItemForm/ItemForm";
+import EditItemForm from "./components/EditItemForm/EditItemForm";
 function App() {
   return (
     <AuthProvider>
@@ -18,6 +19,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/add_item" element={<ItemForm />} />
+          <Route path="/edit_item/:id" element={<EditItemForm />} />
 
           <Route path="*" element={<NoPage />} />
         </Routes>
