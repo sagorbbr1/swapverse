@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 const User = require("./models/User");
 const { verifyToken } = require("./routes/ProtectedRoute");
 dotenv.config();
@@ -18,7 +19,9 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
+app.use("/uploads", express.static("uploads"));
 app.use("/api", authRoutes);
+app.use("/api", userRoutes);
 
 app.get("/api/profile", verifyToken, async (req, res) => {
   const user = await User.findById(req.user.id).select("-password");
