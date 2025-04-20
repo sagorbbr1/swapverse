@@ -12,6 +12,8 @@ const ItemList = () => {
   const [selectedMyItemId, setSelectedMyItemId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [myItems, setMyItems] = useState([]);
+  const [sentRequests, setSentRequests] = useState([]);
+  const [receivedRequests, setReceivedRequests] = useState([]);
 
   const fetchItems = async () => {
     try {
@@ -27,29 +29,47 @@ const ItemList = () => {
     }
   };
 
-  const handleSwapRequest = async (targetItemId) => {
+  const handleSwapRequest = async (targetItemId, owner) => {
     if (!selectedMyItemId) {
       return toast.error("Please select one of your items.");
     }
 
-    console.log(selectedMyItemId, targetItemId);
-
     try {
-      await axios.post(
+      const res = await axios.post(
         "/api/swap",
         {
           requesterItemId: selectedMyItemId,
           targetItemId: targetItemId,
+          owner: owner,
         },
         { withCredentials: true }
       );
       toast.success("Swap request sent successfully!");
+
+      const newRequest = {
+        _id: res.data._id,
+        requester: user._id,
+        owner: owner,
+        requesterItem: { _id: selectedMyItemId },
+        targetItem: { _id: targetItemId },
+        status: "Pending",
+      };
+
+      setSentRequests((prev) => [...prev, newRequest]);
     } catch (err) {
       console.error("Swap request error:", err.response?.data || err.message);
       toast.error(
         err.response?.data?.message || "Failed to send swap request."
       );
     }
+  };
+
+  const fetchRequests = async () => {
+    const res = await axios.get("/api/swap-requests", {
+      withCredentials: true,
+    });
+    setSentRequests(res.data.sent);
+    setReceivedRequests(res.data.received);
   };
 
   const handleEditSwap = async (itemId) => {
@@ -75,6 +95,7 @@ const ItemList = () => {
 
   useEffect(() => {
     fetchItems();
+    fetchRequests();
   }, []);
 
   if (loading) return <p>Loading items...</p>;
@@ -89,6 +110,8 @@ const ItemList = () => {
       </>
     );
 
+  console.log(sentRequests, receivedRequests);
+
   return (
     <div className="container mt-4 ">
       <OwnItems
@@ -97,6 +120,7 @@ const ItemList = () => {
         myItems={myItems}
         setMyItems={setMyItems}
       />
+      {/* <ReceivedRequests requests={receivedRequests} onUpdate={fetchRequests} /> */}
 
       <h3 className="text-primary">Items Available for Swap</h3>
       <div className="d-flex justify-content-end my-3">
@@ -106,71 +130,92 @@ const ItemList = () => {
       </div>
 
       <div className="row">
-        {items.map((item) => (
-          <div className="col-md-3 mb-4" key={item._id}>
-            <div className="card h-100 shadow-sm">
-              {item.image && (
-                <img
-                  src={`/uploads/items/${item.image}`}
-                  className="card-img-top"
-                  alt={item.title}
-                  style={{ height: "200px", objectFit: "cover" }}
-                />
-              )}
-              <div className="card-body position-relative">
-                <h5 className="card-title">{item.title}</h5>
-                <p className="card-text">{item.description}</p>
-                <p>
-                  <strong>Category:</strong> {item.category}
-                </p>
-                <p>
-                  <strong>Condition:</strong> {item.condition}
-                </p>
-                <p>
-                  <strong>Swap Wish:</strong> {item.swapWishList}
-                </p>
-
-                {item && item.user._id !== user._id && (
-                  <>
-                    <div className="d-flex justify-content-between align-items-center position-absolute bottom-0  py-2 bg-light">
-                      <p className="mb-0">
-                        <strong>Owner:</strong> {item.user.fullname}
-                      </p>
-                      <button
-                        onClick={() => handleSwapRequest(item._id)}
-                        className="btn btn-primary ms-2"
-                      >
-                        Swap Request
-                      </button>
-                    </div>
-                  </>
+        {items &&
+          items.map((item) => (
+            <div className="col-md-3 mb-4" key={item._id}>
+              <div className="card h-100 shadow-sm">
+                {item.image && (
+                  <img
+                    src={`/uploads/items/${item.image}`}
+                    className="card-img-top"
+                    alt={item.title}
+                    style={{ height: "200px", objectFit: "cover" }}
+                  />
                 )}
+                <div className="card-body position-relative">
+                  <h5 className="card-title">{item.title}</h5>
+                  <p className="card-text">{item.description}</p>
+                  <p>
+                    <strong>Category:</strong> {item.category}
+                  </p>
+                  <p>
+                    <strong>Condition:</strong> {item.condition}
+                  </p>
+                  <p>
+                    <strong>Swap Wish:</strong> {item.swapWishList}
+                  </p>
 
-                {item && item.user._id === user._id && (
-                  <>
-                    <div className="d-flex justify-content-between align-items-center position-absolute bottom-0  py-2 bg-light text-center w-75">
-                      <button
-                        onClick={() => handleEditSwap(item._id)}
-                        className="mb-0 btn btn-primary"
-                      >
-                        Edit item
-                      </button>
-                      <button
-                        onClick={() => handleDeleteSwap(item._id)}
-                        className="btn btn-danger ms-2"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </>
-                )}
+                  {item && item.user?._id !== user?._id && (
+                    <>
+                      <div className="d-flex justify-content-between align-items-center position-absolute bottom-0  py-2 bg-light">
+                        <p className="mb-0">
+                          <strong>Owner:</strong> {item.user.fullname}
+                        </p>
+                        {(() => {
+                          const request = sentRequests?.find((req) => {
+                            return (
+                              req.requester?.toString() ===
+                                user?._id?.toString() &&
+                              req.targetItem?._id?.toString() ===
+                                item?._id?.toString()
+                            );
+                          });
 
-                <ToastContainer />
+                          return request ? (
+                            <div className="text-center">
+                              <button className="btn btn-danger ms-2 me-2 text-capitalize">
+                                {request.status}
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() =>
+                                handleSwapRequest(item?._id, item?.user._id)
+                              }
+                              className="btn btn-primary ms-2 me-2"
+                            >
+                              Swap
+                            </button>
+                          );
+                        })()}
+                      </div>
+                    </>
+                  )}
+
+                  {item && item.user._id === user._id && (
+                    <>
+                      <div className="text-center position-absolute bottom-0  py-2 bg-light text-center">
+                        <button
+                          onClick={() => handleEditSwap(item._id)}
+                          className="mb-0 btn btn-primary"
+                        >
+                          Edit item
+                        </button>
+                        <button
+                          onClick={() => handleDeleteSwap(item._id)}
+                          className="btn btn-danger ms-2"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
+      <ToastContainer />
     </div>
   );
 };

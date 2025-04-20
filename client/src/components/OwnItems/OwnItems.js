@@ -1,6 +1,7 @@
 // OwnItems.js
 import React, { useEffect } from "react";
 import axios from "axios";
+import { ArrowDown } from "react-bootstrap-icons";
 
 const OwnItems = ({
   selectedMyItemId,
@@ -24,8 +25,8 @@ const OwnItems = ({
 
   return (
     <div className="mb-3">
-      <label htmlFor="myItemSelect" className="form-label">
-        Select your item to swap:
+      <label htmlFor="myItemSelect" className="form-label text-primary fw-bold">
+        Select your item to swap: <ArrowDown className="down-arrow" />
       </label>
       <select
         id="myItemSelect"

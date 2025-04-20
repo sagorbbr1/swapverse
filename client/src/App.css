@@ -25,7 +25,8 @@ a {
 }
 
 .close-btn,
-.back-btn {
+.back-btn,
+.down-arrow {
   font-size: 23px;
   cursor: pointer;
 }
