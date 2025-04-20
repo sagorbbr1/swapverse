@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const jwt = require("jsonwebtoken");
 const Item = require("../models/Item.js");
 const authenticate = require("../middleware/authenticate.js");
 
@@ -45,6 +44,19 @@ router.post(
     }
   }
 );
+
+//Get Item
+
+router.get("/items/:id", authenticate, async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id).populate("user", ["name"]);
+    if (!item) return res.status(404).json({ message: "Item not found." });
+    res.status(200).json(item);
+  } catch (err) {
+    console.error("Error fetching item:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
 
 // UPDATE ITEM
 router.put("/items/:id", authenticate, async (req, res) => {

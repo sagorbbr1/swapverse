@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../Navbar/Navbar";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { XOctagon } from "react-bootstrap-icons";
 
 const ItemForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -76,6 +77,7 @@ const ItemForm = () => {
       toast.success("Item created successfully!");
       setPreview(null);
       setErrors({});
+      navigate("/");
     } catch (err) {
       toast.error("Error creating item. Please try again.");
       console.error("Error creating item:", err);

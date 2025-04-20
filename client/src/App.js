@@ -9,12 +9,14 @@ import ProfilePage from "./pages/ProfilePage";
 
 import ItemForm from "./components/ItemForm/ItemForm";
 import EditItemForm from "./components/EditItemForm/EditItemForm";
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<HomePage />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<ProfilePage />} />

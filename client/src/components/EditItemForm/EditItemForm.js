@@ -61,6 +61,19 @@ const EditItemForm = () => {
           <h3 className="text-primary my-4">Edit Item</h3>
         </div>
 
+        <div className="my-4 d-flex justify-content-between align-items-center">
+          <div className=" shadow-sm w-25">
+            <img
+              className="w-75"
+              src={`/uploads/items/${formData.image}`}
+              alt="swapImage"
+            />
+          </div>
+          <h4 className=" text-primary text-center w-75">
+            {formData && formData.title}
+          </h4>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <input
             name="title"

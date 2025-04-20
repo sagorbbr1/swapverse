@@ -3,12 +3,15 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../AuthContext/AuthContext";
+import OwnItems from "../OwnItems/OwnItems";
 
 const ItemList = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [items, setItems] = useState([]);
+  const [selectedMyItemId, setSelectedMyItemId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [myItems, setMyItems] = useState([]);
 
   const fetchItems = async () => {
     try {
@@ -18,27 +21,35 @@ const ItemList = () => {
       setItems(res.data);
       setLoading(false);
     } catch (err) {
+      toast.error("Failed to load items. Please try again.");
       console.error("Failed to fetch items:", err);
       setLoading(false);
     }
   };
 
-  const handleSwapRequest = async (itemId) => {
-    // if (!user) {
-    //   alert("Please log in to make a swap request.");
-    //   return;
-    // }
-    // try {
-    //   const res = await axios.post(
-    //     "/api/swap",
-    //     { requesterItemId: itemId, targetItemId: itemId },
-    //     { withCredentials: true }
-    //   );
-    //   alert("Swap request sent successfully!");
-    // } catch (err) {
-    //   console.error("Failed to send swap request:", err);
-    //   alert("Failed to send swap request. Please try again.");
-    // }
+  const handleSwapRequest = async (targetItemId) => {
+    if (!selectedMyItemId) {
+      return toast.error("Please select one of your items.");
+    }
+
+    console.log(selectedMyItemId, targetItemId);
+
+    try {
+      await axios.post(
+        "/api/swap",
+        {
+          requesterItemId: selectedMyItemId,
+          targetItemId: targetItemId,
+        },
+        { withCredentials: true }
+      );
+      toast.success("Swap request sent successfully!");
+    } catch (err) {
+      console.error("Swap request error:", err.response?.data || err.message);
+      toast.error(
+        err.response?.data?.message || "Failed to send swap request."
+      );
+    }
   };
 
   const handleEditSwap = async (itemId) => {
@@ -80,6 +91,13 @@ const ItemList = () => {
 
   return (
     <div className="container mt-4 ">
+      <OwnItems
+        selectedMyItemId={selectedMyItemId}
+        setSelectedMyItemId={setSelectedMyItemId}
+        myItems={myItems}
+        setMyItems={setMyItems}
+      />
+
       <h3 className="text-primary">Items Available for Swap</h3>
       <div className="d-flex justify-content-end my-3">
         <Link className="btn btn-outline-primary" to="/add_item">
@@ -89,7 +107,7 @@ const ItemList = () => {
 
       <div className="row">
         {items.map((item) => (
-          <div className="col-md-4 mb-4" key={item._id}>
+          <div className="col-md-3 mb-4" key={item._id}>
             <div className="card h-100 shadow-sm">
               {item.image && (
                 <img

@@ -1,41 +1,38 @@
 const express = require("express");
 const router = express.Router();
-const authenticate = require("../middleware/authenticate");
 const SwapRequest = require("../models/SwapRequest");
 const Item = require("../models/Item");
+
+const authenticate = require("../middleware/authenticate.js");
 
 router.post("/swap", authenticate, async (req, res) => {
   const { requesterItemId, targetItemId } = req.body;
 
-  console.log(req.body);
-
-  if (!requesterItemId || !targetItemId) {
-    return res.status(400).json({ message: "Both items are required." });
-  }
+  console.log("REQ USER ID:", req.user.id);
+  console.log("Requester Item:", requesterItemId);
+  console.log("Target Item:", targetItemId);
 
   try {
-    const existingRequest = await SwapRequest.findOne({
+    const existing = await SwapRequest.findOne({
       requester: req.user.id,
       requesterItem: requesterItemId,
       targetItem: targetItemId,
     });
 
-    if (existingRequest) {
-      return res
-        .status(409)
-        .json({ message: "You’ve already requested this swap." });
+    if (existing) {
+      return res.status(400).json({ message: "Swap request already sent." });
     }
 
-    const swapRequest = new SwapRequest({
+    const swap = new SwapRequest({
       requester: req.user.id,
       requesterItem: requesterItemId,
       targetItem: targetItemId,
     });
 
-    await swapRequest.save();
-    res.status(201).json(swapRequest);
+    await swap.save();
+    res.status(201).json({ message: "Swap request sent." });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error.", error: err });
   }
 });
 

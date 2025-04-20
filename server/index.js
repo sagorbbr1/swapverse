@@ -5,14 +5,15 @@ const dotenv = require("dotenv");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const itemRoutes = require("./routes/item");
+const OwnItems = require("./routes/ownItems");
 const swapRoutes = require("./routes/swap");
+
 const User = require("./models/User");
 
-const { verifyToken } = require("./routes/ProtectedRoute");
+const verifyToken = require("./middleware/authenticate");
 dotenv.config();
 const cookieParser = require("cookie-parser");
 const Item = require("./models/Item");
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(cors());
@@ -28,6 +29,7 @@ mongoose
 app.use("/uploads", express.static("uploads"));
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", OwnItems);
 app.use("/api", itemRoutes);
 app.use("/api", swapRoutes);
 
