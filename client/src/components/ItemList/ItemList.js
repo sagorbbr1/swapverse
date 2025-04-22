@@ -187,7 +187,7 @@ const ItemList = () => {
 
                           return request ? (
                             <div className="text-center">
-                              <button className="btn btn-danger ms-2 me-2 text-capitalize">
+                              <button className="btn btn-warning ms-2 me-2 text-capitalize">
                                 {request.status}
                               </button>
                             </div>

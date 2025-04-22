@@ -9,6 +9,8 @@ import ProfilePage from "./pages/ProfilePage";
 
 import ItemForm from "./components/ItemForm/ItemForm";
 import EditItemForm from "./components/EditItemForm/EditItemForm";
+import ReceivedSwapRequests from "./components/ReceivedSwapRequests/ReceivedSwapRequests";
+import SentSwapRequest from "./components/SentSwapRequest/SentSwapRequest";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/add_item" element={<ItemForm />} />
           <Route path="/edit_item/:id" element={<EditItemForm />} />
+          <Route path="/received_request" element={<ReceivedSwapRequests />} />
+          <Route path="/sent_request" element={<SentSwapRequest />} />
 
           <Route path="*" element={<NoPage />} />
         </Routes>
