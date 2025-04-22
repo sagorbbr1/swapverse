@@ -110,8 +110,6 @@ const ItemList = () => {
       </>
     );
 
-  console.log(sentRequests, receivedRequests);
-
   return (
     <div className="container mt-4 ">
       <OwnItems
@@ -123,10 +121,26 @@ const ItemList = () => {
       {/* <ReceivedRequests requests={receivedRequests} onUpdate={fetchRequests} /> */}
 
       <h3 className="text-primary">Items Available for Swap</h3>
-      <div className="d-flex justify-content-end my-3">
-        <Link className="btn btn-outline-primary" to="/add_item">
-          Add Item
-        </Link>
+      <div className="d-flex justify-content-between my-4">
+        <div>
+          <button className="btn btn-outline-primary">All Items</button>
+          <button className="btn btn-outline-primary ms-2">Swap Items</button>
+          <button className="btn btn-outline-primary ms-2">My Items</button>
+        </div>
+
+        <div>
+          <Link className="btn btn-outline-danger" to="/sent_request">
+            Sent Request
+          </Link>
+
+          <Link className="btn btn-outline-danger ms-2" to="/received_request">
+            Received Request
+          </Link>
+
+          <Link className="ms-2 btn btn-outline-primary" to="/add_item">
+            Add Item
+          </Link>
+        </div>
       </div>
 
       <div className="row">

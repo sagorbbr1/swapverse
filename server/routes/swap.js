@@ -41,52 +41,30 @@ router.get("/swap-requests", authenticate, async (req, res) => {
       .populate("targetItem.user", "fullname")
       .populate("owner", "owner");
 
-    const received = await SwapRequest.find({ owner: req.user.id })
+    const received = await SwapRequest.find()
+      .populate("requester", "fullname")
       .populate("requesterItem")
-      .populate("targetItem")
-      .populate("targetItem.user", "fullname");
+      .populate({
+        path: "targetItem",
+        populate: {
+          path: "user",
+          select: "fullname _id",
+        },
+      });
 
-    res.json({ sent, received });
+    const filteredReceived = received.filter(
+      (receivedItem) =>
+        receivedItem?.targetItem?.user?._id.toString() === req.user.id &&
+        receivedItem?.requester._id.toString() !== req.user.id
+    );
+
+    res.json({ sent, received: filteredReceived });
   } catch (err) {
     res
       .status(500)
       .json({ message: "Failed to load swap requests.", error: err });
   }
 });
-
-// router.get("/swap-requests", authenticate, async (req, res) => {
-//   try {
-//     // Get all requests and deeply populate nested user field
-//     const allRequests = await SwapRequest.find()
-//       .populate("requesterItem")
-//       .populate("requester", "fullname")
-//       .populate({
-//         path: "targetItem",
-//         populate: {
-//           path: "user",
-//           select: "fullname _id",
-//         },
-//       });
-
-//     // Filter sent and received
-//     const sent = allRequests.filter(
-//       (req) => req.requester._id.toString() === req.user.id
-//     );
-
-//     const received = allRequests.filter(
-//       (req) =>
-//         req.targetItem?.user?._id?.toString() === req.user.id &&
-//         req.requester._id.toString() !== req.user.id
-//     );
-
-//     res.json({ sent, received });
-//   } catch (err) {
-//     console.error("Error fetching swap requests:", err);
-//     res
-//       .status(500)
-//       .json({ message: "Failed to load swap requests.", error: err });
-//   }
-// });
 
 router.put("/swap-requests/:id", authenticate, async (req, res) => {
   try {
