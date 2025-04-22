@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "../components/Navbar/Navbar";
 import { XOctagon } from "react-bootstrap-icons";
 import { Link } from "react-router";
+import { HashLoader } from "react-spinners";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -70,7 +71,26 @@ const ProfilePage = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <HashLoader
+        className="loader"
+        color={"#36d7b7"}
+        loading={loading}
+        cssOverride={{
+          margin: "0 auto",
+          borderColor: "red",
+
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
   if (!user) return <div>No user found.</div>;
 
   return (

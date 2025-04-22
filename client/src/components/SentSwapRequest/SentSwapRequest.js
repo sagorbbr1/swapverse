@@ -5,10 +5,12 @@ import { toast, ToastContainer } from "react-toastify";
 import { ArrowLeftCircle } from "react-bootstrap-icons";
 import { Link } from "react-router";
 import Navbar from "../Navbar/Navbar";
+import { HashLoader } from "react-spinners";
 
 const SentSwapRequest = () => {
   const { user } = useAuth();
   const [sentRequests, setSentRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchSentRequests = async () => {
     try {
@@ -16,7 +18,9 @@ const SentSwapRequest = () => {
         withCredentials: true,
       });
       setSentRequests(res.data.sent);
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       console.error("Failed to fetch sent swap requests:", err);
       toast.error("Failed to load sent requests.");
     }
@@ -25,6 +29,27 @@ const SentSwapRequest = () => {
   useEffect(() => {
     fetchSentRequests();
   }, []);
+
+  if (loading)
+    return (
+      <HashLoader
+        className="loader"
+        color={"#36d7b7"}
+        loading={loading}
+        cssOverride={{
+          margin: "0 auto",
+          borderColor: "red",
+
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
 
   return (
     <>
