@@ -5,6 +5,7 @@ import { useAuth } from "../AuthContext/AuthContext";
 import { Link } from "react-router";
 import { ArrowLeftCircle } from "react-bootstrap-icons";
 import Navbar from "../Navbar/Navbar";
+import { HashLoader } from "react-spinners";
 
 const ReceivedSwapRequests = () => {
   const { user } = useAuth();
@@ -44,7 +45,26 @@ const ReceivedSwapRequests = () => {
     fetchReceivedRequests();
   }, []);
 
-  if (loading) return <p>Loading received requests...</p>;
+  if (loading)
+    return (
+      <HashLoader
+        className="loader"
+        color={"#36d7b7"}
+        loading={loading}
+        cssOverride={{
+          margin: "0 auto",
+          borderColor: "red",
+
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
 
   if (receivedRequests.length === 0) {
     return <p>No received swap requests.</p>;

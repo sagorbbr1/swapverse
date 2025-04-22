@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../AuthContext/AuthContext";
 import OwnItems from "../OwnItems/OwnItems";
+import { HashLoader } from "react-spinners";
 
 const ItemList = () => {
   const navigate = useNavigate();
@@ -98,7 +99,26 @@ const ItemList = () => {
     fetchRequests();
   }, []);
 
-  if (loading) return <p>Loading items...</p>;
+  if (loading)
+    return (
+      <HashLoader
+        className="loader"
+        color={"#36d7b7"}
+        loading={loading}
+        cssOverride={{
+          margin: "0 auto",
+          borderColor: "red",
+
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
 
   if (items.length === 0)
     return (
@@ -187,7 +207,13 @@ const ItemList = () => {
 
                           return request ? (
                             <div className="text-center">
-                              <button className="btn btn-warning ms-2 me-2 text-capitalize">
+                              <button
+                                className={`btn ms-2 me-2 text-capitalize ${
+                                  request.status === "accepted"
+                                    ? "btn-success"
+                                    : "btn-danger"
+                                }`}
+                              >
                                 {request.status}
                               </button>
                             </div>
