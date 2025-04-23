@@ -19,7 +19,7 @@ const ReceivedSwapRequests = () => {
       const chat = await startChat(userId);
       navigate(`/chat/${chat._id}`);
     } catch (err) {
-      alert("Could not start chat.");
+      toast.error("Failed to start chat.");
     }
   };
 

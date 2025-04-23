@@ -3,14 +3,25 @@ import axios from "axios";
 import { useAuth } from "../AuthContext/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import { ArrowLeftCircle } from "react-bootstrap-icons";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Navbar from "../Navbar/Navbar";
 import { HashLoader } from "react-spinners";
+import { startChat } from "../ChatRoom/chatHelpers";
 
 const SentSwapRequest = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [sentRequests, setSentRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleStartChat = async (userId) => {
+    try {
+      const chat = await startChat(userId);
+      navigate(`/chat/${chat._id}`);
+    } catch (err) {
+      toast.error("Failed to start chat.");
+    }
+  };
 
   const fetchSentRequests = async () => {
     try {
@@ -89,6 +100,15 @@ const SentSwapRequest = () => {
                     <p>
                       <strong>Status:</strong> {req.status}
                     </p>
+
+                    {req.status === "accepted" && (
+                      <button
+                        onClick={() => handleStartChat(req.owner?._id)}
+                        className=" btn btn-success"
+                      >
+                        Chat
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

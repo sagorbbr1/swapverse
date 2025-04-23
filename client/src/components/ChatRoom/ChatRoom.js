@@ -29,6 +29,7 @@ const ChatRoom = () => {
     fetchChats();
   }, []);
 
+  console.log(chats);
   useEffect(() => {
     if (currentChat) {
       const fetchMessages = async () => {
@@ -94,18 +95,29 @@ const ChatRoom = () => {
           <h6 className="text-center text-primary mb-4">
             Available chat users
           </h6>
+
           {chats &&
-            chats.map((chat) => (
+            [
+              ...new Map(
+                chats
+                  .map((chat) => {
+                    const otherUser = chat.users.find(
+                      (u) => u._id !== user._id
+                    );
+
+                    return otherUser
+                      ? [otherUser._id, { chat, otherUser }]
+                      : null;
+                  })
+                  .filter(Boolean)
+              ).values(),
+            ].map(({ chat, otherUser }) => (
               <div
                 key={chat._id}
                 onClick={() => setCurrentChat(chat)}
-                className="chat-item bg-primary-subtle my-2"
+                className="chat-item bg-primary-subtle my-2 p-2 rounded"
               >
-                Chat with{" "}
-                {chat.users
-                  .map((user) => user.fullname)
-
-                  .filter((name) => name !== user.fullname)}
+                Chat with {otherUser.fullname}
               </div>
             ))}
         </div>

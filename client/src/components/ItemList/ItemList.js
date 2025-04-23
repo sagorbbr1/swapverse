@@ -15,6 +15,7 @@ const ItemList = () => {
   const [myItems, setMyItems] = useState([]);
   const [sentRequests, setSentRequests] = useState([]);
   const [receivedRequests, setReceivedRequests] = useState([]);
+  const [selected, setSelected] = useState(0);
 
   const fetchItems = async () => {
     try {
@@ -142,9 +143,24 @@ const ItemList = () => {
       <h3 className="text-primary">Items Available for Swap</h3>
       <div className="d-flex justify-content-between my-4">
         <div>
-          <button className="btn btn-outline-primary">All Items</button>
-          <button className="btn btn-outline-primary ms-2">Swap Items</button>
-          <button className="btn btn-outline-primary ms-2">My Items</button>
+          <button
+            onClick={() => setSelected(0)}
+            className="btn btn-outline-primary"
+          >
+            All Items
+          </button>
+          <button
+            onClick={() => setSelected(1)}
+            className="btn btn-outline-primary ms-2"
+          >
+            Swap Items
+          </button>
+          <button
+            onClick={() => setSelected(2)}
+            className="btn btn-outline-primary ms-2"
+          >
+            My Items
+          </button>
         </div>
 
         <div>
@@ -163,6 +179,9 @@ const ItemList = () => {
       </div>
 
       <div className="row">
+        {selected === 0 && <h2>H000000000</h2>}
+        {selected === 1 && <h2>H111111111111</h2>}
+        {selected === 2 && <h2>H222222222</h2>}
         {items &&
           items.map((item) => (
             <div className="col-md-3 mb-4" key={item._id}>
