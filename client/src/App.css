@@ -30,3 +30,13 @@ a {
   font-size: 23px;
   cursor: pointer;
 }
+
+input {
+  outline: none;
+  border: 1px solid #ccc;
+}
+
+input:focus {
+  outline: transparent;
+  border: 1px solid #007bff;
+}

@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from "../Navbar/Navbar";
 import { ArrowLeftCircle } from "react-bootstrap-icons";
+import { HashLoader } from "react-spinners";
 const EditItemForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -16,13 +17,18 @@ const EditItemForm = () => {
     swapWishList: "",
   });
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchItem = async () => {
       try {
         const res = await axios.get(`/api/items/${id}`);
         setFormData(res.data);
+        setLoading(false);
       } catch (err) {
         console.error("Failed to fetch item:", err);
+        toast.error("Failed to fetch item.");
+        setLoading(false);
       }
     };
     fetchItem();
@@ -45,6 +51,27 @@ const EditItemForm = () => {
       console.error(err);
     }
   };
+
+  if (loading)
+    return (
+      <HashLoader
+        className="loader"
+        color={"#36d7b7"}
+        loading={loading}
+        cssOverride={{
+          margin: "0 auto",
+          borderColor: "red",
+
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
 
   return (
     <>

@@ -1,30 +1,30 @@
 const express = require("express");
 const router = express.Router();
-const Chat = require("../models/Chat");
-const SwapRequest = require("../models/SwapRequest");
 const authenticate = require("../middleware/authenticate");
+const Chat = require("../models/Chat");
+const Message = require("../models/Message");
 
-// Get or Create Chat for Accepted Swap
-router.get("/chat/:swapId", authenticate, async (req, res) => {
+router.get("/chats", authenticate, async (req, res) => {
   try {
-    const swapId = req.params.swapId;
-
-    let chat = await Chat.findOne({ swapRequest: swapId }).populate(
-      "messages.sender",
-      "name"
+    const chats = await Chat.find({ users: req.user.id }).populate(
+      "users",
+      "fullname"
     );
+    res.json(chats);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to get chats." });
+  }
+});
+
+router.post("/chats", authenticate, async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    let chat = await Chat.findOne({ users: { $all: [req.user.id, userId] } });
 
     if (!chat) {
-      const swap = await SwapRequest.findById(swapId);
-
-      if (!swap || swap.status !== "accepted") {
-        return res.status(400).json({ message: "Swap not accepted yet." });
-      }
-
       chat = new Chat({
-        swapRequest: swapId,
-        participants: [swap.requestedBy, swap.requestedTo],
-        messages: [],
+        users: [req.user.id, userId],
       });
 
       await chat.save();
@@ -32,29 +32,39 @@ router.get("/chat/:swapId", authenticate, async (req, res) => {
 
     res.json(chat);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error creating chat:", err);
+    res.status(500).json({ message: "Failed to create chat" });
   }
 });
 
-// Send a Message
-router.post("/chat/:swapId/message", authenticate, async (req, res) => {
+router.get("/chats/:chatId/messages", authenticate, async (req, res) => {
   try {
-    const { text } = req.body;
-    const chat = await Chat.findOne({ swapRequest: req.params.swapId });
-
-    if (!chat) return res.status(404).json({ message: "Chat not found." });
-
-    const message = {
-      sender: req.user.id,
-      text,
-    };
-
-    chat.messages.push(message);
-    await chat.save();
-
-    res.status(201).json(message);
+    const messages = await Message.find({ chat: req.params.chatId })
+      .populate("sender", "fullname")
+      .sort({ createdAt: 1 }); // Sort messages in ascending order (oldest first)
+    res.json(messages);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: "Failed to get messages." });
+  }
+});
+
+router.post("/chats/:chatId/messages", authenticate, async (req, res) => {
+  try {
+    const { content } = req.body;
+
+    const message = new Message({
+      chat: req.params.chatId,
+      sender: req.user.id,
+      content,
+    });
+
+    await message.save();
+
+    const populatedMessage = await message.populate("sender", "fullname");
+
+    res.status(201).json(populatedMessage);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to send message." });
   }
 });
 

@@ -7,6 +7,8 @@ const userRoutes = require("./routes/user");
 const itemRoutes = require("./routes/item");
 const OwnItems = require("./routes/ownItems");
 const swapRoutes = require("./routes/swap");
+const chatRoutes = require("./routes/chat");
+const { app, server } = require("./server");
 
 const User = require("./models/User");
 
@@ -14,7 +16,7 @@ const verifyToken = require("./middleware/authenticate");
 dotenv.config();
 const cookieParser = require("cookie-parser");
 const Item = require("./models/Item");
-const app = express();
+
 const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
@@ -33,6 +35,7 @@ app.use("/api", OwnItems);
 app.use("/api", itemRoutes);
 app.use("/api", swapRoutes);
 
+app.use("/api", chatRoutes);
 app.get("/api/items", async (req, res) => {
   try {
     const items = await Item.find()
@@ -64,4 +67,4 @@ app.get("/", (req, res) => {
   res.send("SwapVerse API is running");
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../logo.jpg";
+import logo from "../logo.png";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router";
 

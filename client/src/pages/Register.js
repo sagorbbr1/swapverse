@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import logo from "../logo.jpg";
+import logo from "../logo.png";
 import { Link } from "react-router";
 
 const Register = () => {
@@ -30,7 +30,7 @@ const Register = () => {
       });
 
       const data = await res.json();
-      console.log("Response data:", data);
+
       if (res.ok) {
         toast("Registration successful!");
         window.location.href = "/";

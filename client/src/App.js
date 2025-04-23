@@ -11,6 +11,7 @@ import ItemForm from "./components/ItemForm/ItemForm";
 import EditItemForm from "./components/EditItemForm/EditItemForm";
 import ReceivedSwapRequests from "./components/ReceivedSwapRequests/ReceivedSwapRequests";
 import SentSwapRequest from "./components/SentSwapRequest/SentSwapRequest";
+import ChatRoom from "./components/ChatRoom/ChatRoom";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/edit_item/:id" element={<EditItemForm />} />
           <Route path="/received_request" element={<ReceivedSwapRequests />} />
           <Route path="/sent_request" element={<SentSwapRequest />} />
+          <Route path="/chat/:chatId" element={<ChatRoom />} />
 
           <Route path="*" element={<NoPage />} />
         </Routes>

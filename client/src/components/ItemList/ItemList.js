@@ -138,7 +138,7 @@ const ItemList = () => {
         myItems={myItems}
         setMyItems={setMyItems}
       />
-      {/* <ReceivedRequests requests={receivedRequests} onUpdate={fetchRequests} /> */}
+      
 
       <h3 className="text-primary">Items Available for Swap</h3>
       <div className="d-flex justify-content-between my-4">

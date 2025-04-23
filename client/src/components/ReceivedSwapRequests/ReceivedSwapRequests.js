@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../AuthContext/AuthContext";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { ArrowLeftCircle } from "react-bootstrap-icons";
 import Navbar from "../Navbar/Navbar";
 import { HashLoader } from "react-spinners";
+import { startChat } from "../ChatRoom/chatHelpers";
 
 const ReceivedSwapRequests = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [receivedRequests, setReceivedRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleStartChat = async (userId) => {
+    try {
+      const chat = await startChat(userId);
+      navigate(`/chat/${chat._id}`);
+    } catch (err) {
+      alert("Could not start chat.");
+    }
+  };
 
   const fetchReceivedRequests = async () => {
     try {
@@ -34,7 +45,7 @@ const ReceivedSwapRequests = () => {
         { withCredentials: true }
       );
       toast.success(`Request ${status}`);
-      fetchReceivedRequests(); // Refresh after update
+      fetchReceivedRequests();
     } catch (err) {
       console.error("Error updating request:", err);
       toast.error("Failed to update swap request.");
@@ -73,6 +84,7 @@ const ReceivedSwapRequests = () => {
   return (
     <>
       <Navbar />
+      <ToastContainer />
       <div className="container mt-4">
         <div className="d-flex align-items-center">
           <Link to="/">
@@ -114,6 +126,15 @@ const ReceivedSwapRequests = () => {
                         Reject
                       </button>
                     </div>
+                  )}
+
+                  {req.status === "accepted" && (
+                    <button
+                      onClick={() => handleStartChat(req.requester._id)}
+                      className=" btn btn-success"
+                    >
+                      Chat
+                    </button>
                   )}
                 </div>
               </div>

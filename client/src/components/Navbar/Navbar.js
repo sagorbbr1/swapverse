@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../AuthContext/AuthContext";
 import LogoutButton from "../../pages/LogoutButton";
-import logo from "../../../src/logo.jpg";
+import logo from "../../../src/logo.png";
 const Navbar = () => {
   const { user } = useAuth();
 
