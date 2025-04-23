@@ -138,7 +138,6 @@ const ItemList = () => {
         myItems={myItems}
         setMyItems={setMyItems}
       />
-      
 
       <h3 className="text-primary">Items Available for Swap</h3>
       <div className="d-flex justify-content-between my-4">
@@ -170,14 +169,25 @@ const ItemList = () => {
               <div className="card h-100 shadow-sm">
                 {item.image && (
                   <img
+                    onClick={() => navigate(`/item/${item._id}`)}
                     src={`/uploads/items/${item.image}`}
                     className="card-img-top"
                     alt={item.title}
-                    style={{ height: "200px", objectFit: "cover" }}
+                    style={{
+                      height: "200px",
+                      objectFit: "cover",
+                      cursor: "pointer",
+                    }}
                   />
                 )}
                 <div className="card-body position-relative">
-                  <h5 className="card-title">{item.title}</h5>
+                  <h5
+                    onClick={() => navigate(`/item/${item._id}`)}
+                    className="card-title "
+                    style={{ cursor: "pointer" }}
+                  >
+                    {item.title}
+                  </h5>
                   <p className="card-text">{item.description}</p>
                   <p>
                     <strong>Category:</strong> {item.category}

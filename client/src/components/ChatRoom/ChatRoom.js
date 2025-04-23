@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import io from "socket.io-client";
+
 import "./ChatRoom.css";
 import Navbar from "../Navbar/Navbar";
 import { useAuth } from "../AuthContext/AuthContext";
 import { Link } from "react-router";
 import { ArrowLeftCircle } from "react-bootstrap-icons";
-
-const socket = io("http://localhost:5000");
+import socket from "../../socket";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 const ChatRoom = () => {
   const { user } = useAuth();
@@ -47,42 +47,41 @@ const ChatRoom = () => {
   }, [currentChat]);
 
   useEffect(() => {
-    if (currentChat && socket) {
+    if (currentChat) {
       socket.emit("join_room", currentChat._id);
 
-      const handleReceiveMessage = (message) => {
-        setMessages((prev) => [...prev, message]);
+      const handleReceive = (message) => {
+        console.log("Received:", message);
+        setMessages((prevMessages) => [...prevMessages, message]);
       };
 
-      socket.on("message_received", handleReceiveMessage);
+      socket.on("message_received", handleReceive);
 
       return () => {
         socket.emit("leave_room", currentChat._id);
-        socket.off("message_received", handleReceiveMessage);
+        socket.off("message_received", handleReceive);
       };
     }
-  }, [currentChat, socket]);
+  }, [currentChat]);
 
   const handleSendMessage = async () => {
-    if (!newMessage.trim() || !currentChat) return;
+    if (newMessage.trim()) {
+      try {
+        const response = await axios.post(
+          `/api/chats/${currentChat._id}/messages`,
+          { content: newMessage }
+        );
 
-    try {
-      const response = await axios.post(
-        `/api/chats/${currentChat._id}/messages`,
-        { content: newMessage }
-      );
+        socket.emit("send_message", {
+          roomId: currentChat._id,
+          message: response.data,
+        });
 
-      const savedMessage = response.data;
-
-      socket.emit("send_message", {
-        roomId: currentChat._id,
-        message: savedMessage,
-      });
-
-      setMessages((prev) => [...prev, savedMessage]);
-      setNewMessage("");
-    } catch (err) {
-      console.error("Error sending message:", err);
+        setMessages((prev) => [...prev, response.data]);
+        setNewMessage("");
+      } catch (err) {
+        console.error("Error sending message:", err);
+      }
     }
   };
 
@@ -112,10 +111,10 @@ const ChatRoom = () => {
         </div>
 
         {currentChat && (
-          <div className="chat-window shadow-lg w-50 mx-auto position-relative">
-            <div className="py-2 d-flex align-items-center border">
+          <div className="chat-window shadow-lg  w-50 mx-auto position-relative">
+            <div className=" d-flex align-items-center border">
               <div className="d-flex align-items-center">
-                <Link to="/">
+                <Link to="/received_request">
                   <ArrowLeftCircle className="back-btn" />
                 </Link>
 
@@ -128,18 +127,22 @@ const ChatRoom = () => {
               </div>
             </div>
 
-            <div className="message-list px-4">
-              {messages.map((msg) => (
-                <div
-                  key={msg._id}
-                  className={`message ${
-                    msg.sender._id === user._id ? "sender" : "receiver"
-                  }`}
-                >
-                  <strong>{msg.sender.fullname}: </strong>
-                  <span>{msg.content}</span>
+            <div className="bg-light">
+              <ScrollToBottom>
+                <div className="message-list px-4 ">
+                  {messages.map((msg) => (
+                    <div
+                      key={msg._id}
+                      className={`message ${
+                        msg.sender._id === user._id ? "sender" : "receiver"
+                      }`}
+                    >
+                      <strong>{msg.sender.fullname}: </strong>
+                      <span>{msg.content}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </ScrollToBottom>
             </div>
 
             <div className="message-input position-absolute bottom-0 start-50 translate-middle-x mb-3 d-flex gap-2">

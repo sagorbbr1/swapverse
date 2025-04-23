@@ -23,20 +23,15 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected");
-
   socket.on("join_room", (roomId) => {
     socket.join(roomId);
-    console.log(`User joined room: ${roomId}`);
   });
 
   socket.on("leave_room", (roomId) => {
     socket.leave(roomId);
-    console.log(`User left room: ${roomId}`);
   });
 
   socket.on("send_message", ({ roomId, message }) => {
-    console.log("Message sent to room:", roomId);
     io.to(roomId).emit("message_received", message);
   });
 
