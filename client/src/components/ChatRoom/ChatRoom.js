@@ -48,21 +48,22 @@ const ChatRoom = () => {
   }, [currentChat]);
 
   useEffect(() => {
-    if (currentChat) {
-      socket.emit("join_room", currentChat._id);
+    console.log("JOINING ROOM:", currentChat?._id);
+    if (!socket || !currentChat) return;
 
-      const handleReceive = (message) => {
-        console.log("Received:", message);
-        setMessages((prevMessages) => [...prevMessages, message]);
-      };
+    socket.emit("join_room", currentChat._id);
 
-      socket.on("message_received", handleReceive);
+    const handleReceive = (message) => {
+      console.log("Received:", message);
+      setMessages((prevMessages) => [...prevMessages, message]);
+    };
 
-      return () => {
-        socket.emit("leave_room", currentChat._id);
-        socket.off("message_received", handleReceive);
-      };
-    }
+    socket.on("message_received", handleReceive);
+
+    return () => {
+      socket.emit("leave_room", currentChat._id);
+      socket.off("message_received", handleReceive);
+    };
   }, [currentChat]);
 
   const handleSendMessage = async () => {
@@ -78,7 +79,6 @@ const ChatRoom = () => {
           message: response.data,
         });
 
-        setMessages((prev) => [...prev, response.data]);
         setNewMessage("");
       } catch (err) {
         console.error("Error sending message:", err);
