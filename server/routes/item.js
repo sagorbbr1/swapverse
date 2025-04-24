@@ -12,7 +12,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// CREATE ITEM
 router.post(
   "/items",
   authenticate,
@@ -58,7 +57,6 @@ router.get("/items/:id", authenticate, async (req, res) => {
   }
 });
 
-// UPDATE ITEM
 router.put("/items/:id", authenticate, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);

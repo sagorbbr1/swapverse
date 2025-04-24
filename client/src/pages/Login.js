@@ -47,12 +47,15 @@ const Login = () => {
 
   return (
     <div className="container py-5 d-flex flex-column align-items-center">
-      <img
-        className="logo mb-3"
-        src={logo}
-        alt="logo"
-        style={{ width: "100px" }}
-      />
+      <Link to="/">
+        {" "}
+        <img
+          className="logo mb-3"
+          src={logo}
+          alt="logo"
+          style={{ width: "100px" }}
+        />
+      </Link>
       <h4 className="mb-4 fw-semibold text-primary">Login to SwapVerse</h4>
 
       <form
@@ -95,7 +98,10 @@ const Login = () => {
           Login
         </button>
         <p className="mx-auto mt-3 text-center">
-          No account? <Link to="/register">Create One</Link>
+          No account?{" "}
+          <Link className="text-primary" to="/register">
+            Create One
+          </Link>
         </p>
         <ToastContainer />
       </form>

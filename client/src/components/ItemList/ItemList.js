@@ -5,6 +5,9 @@ import { Link, useNavigate } from "react-router";
 import { useAuth } from "../AuthContext/AuthContext";
 import OwnItems from "../OwnItems/OwnItems";
 import { HashLoader } from "react-spinners";
+import AllFetchItems from "../AllFetchItems/AllFetchItems";
+import AvailableSwapItems from "../AvailableSwapItems/AvailableSwapItems";
+import MySwapItems from "../MySwapItems/MySwapItems";
 
 const ItemList = () => {
   const navigate = useNavigate();
@@ -124,7 +127,7 @@ const ItemList = () => {
   if (items.length === 0)
     return (
       <>
-        <p>No items available to swap.</p>{" "}
+        <h3 className="text-primary">No items available to swap.</h3>{" "}
         <Link className="btn btn-outline-primary" to="/add_item">
           Add Item
         </Link>
@@ -145,19 +148,25 @@ const ItemList = () => {
         <div>
           <button
             onClick={() => setSelected(0)}
-            className="btn btn-outline-primary"
+            className={`btn ${
+              selected === 0 ? "btn-primary" : "btn-outline-primary"
+            }`}
           >
             All Items
           </button>
           <button
             onClick={() => setSelected(1)}
-            className="btn btn-outline-primary ms-2"
+            className={`btn ${
+              selected === 1 ? "btn-primary" : "btn-outline-primary"
+            } ms-2`}
           >
             Swap Items
           </button>
           <button
             onClick={() => setSelected(2)}
-            className="btn btn-outline-primary ms-2"
+            className={`btn ${
+              selected === 2 ? "btn-primary" : "btn-outline-primary"
+            } ms-2`}
           >
             My Items
           </button>
@@ -179,110 +188,32 @@ const ItemList = () => {
       </div>
 
       <div className="row">
-        {selected === 0 && <h2>H000000000</h2>}
-        {selected === 1 && <h2>H111111111111</h2>}
-        {selected === 2 && <h2>H222222222</h2>}
-        {items &&
-          items.map((item) => (
-            <div className="col-md-3 mb-4" key={item._id}>
-              <div className="card h-100 shadow-sm">
-                {item.image && (
-                  <img
-                    onClick={() => navigate(`/item/${item._id}`)}
-                    src={`/uploads/items/${item.image}`}
-                    className="card-img-top"
-                    alt={item.title}
-                    style={{
-                      height: "200px",
-                      objectFit: "cover",
-                      cursor: "pointer",
-                    }}
-                  />
-                )}
-                <div className="card-body position-relative">
-                  <h5
-                    onClick={() => navigate(`/item/${item._id}`)}
-                    className="card-title "
-                    style={{ cursor: "pointer" }}
-                  >
-                    {item.title}
-                  </h5>
-                  <p className="card-text">{item.description}</p>
-                  <p>
-                    <strong>Category:</strong> {item.category}
-                  </p>
-                  <p>
-                    <strong>Condition:</strong> {item.condition}
-                  </p>
-                  <p>
-                    <strong>Swap Wish:</strong> {item.swapWishList}
-                  </p>
-
-                  {item && item.user?._id !== user?._id && (
-                    <>
-                      <div className="d-flex justify-content-between align-items-center position-absolute bottom-0  py-2 bg-light">
-                        <p className="mb-0">
-                          <strong>Owner:</strong> {item.user.fullname}
-                        </p>
-                        {(() => {
-                          const request = sentRequests?.find((req) => {
-                            return (
-                              req.requester?.toString() ===
-                                user?._id?.toString() &&
-                              req.targetItem?._id?.toString() ===
-                                item?._id?.toString()
-                            );
-                          });
-
-                          return request ? (
-                            <div className="text-center">
-                              <button
-                                className={`btn ms-2 me-2 text-capitalize ${
-                                  request.status === "accepted"
-                                    ? "btn-success"
-                                    : "btn-danger"
-                                }`}
-                              >
-                                {request.status}
-                              </button>
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() =>
-                                handleSwapRequest(item?._id, item?.user._id)
-                              }
-                              className="btn btn-primary ms-2 me-2"
-                            >
-                              Swap
-                            </button>
-                          );
-                        })()}
-                      </div>
-                    </>
-                  )}
-
-                  {item && item.user._id === user._id && (
-                    <>
-                      <div className="text-center position-absolute bottom-0  py-2 bg-light text-center">
-                        <button
-                          onClick={() => handleEditSwap(item._id)}
-                          className="mb-0 btn btn-primary"
-                        >
-                          Edit item
-                        </button>
-                        <button
-                          onClick={() => handleDeleteSwap(item._id)}
-                          className="btn btn-danger ms-2"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
+        {selected === 0 && (
+          <AllFetchItems
+            items={items}
+            user={user}
+            sentRequests={sentRequests}
+            handleSwapRequest={handleSwapRequest}
+            handleEditSwap={handleEditSwap}
+            handleDeleteSwap={handleDeleteSwap}
+          />
+        )}
+        {selected === 1 && (
+          <AvailableSwapItems
+            items={items}
+            userId={user && user?._id}
+            handleDeleteSwap={handleDeleteSwap}
+            handleEditSwap={handleEditSwap}
+          />
+        )}
+        {selected === 2 && (
+          <MySwapItems
+            items={items}
+            userId={user && user?._id}
+            handleSwapRequest={handleSwapRequest}
+            sentRequests={sentRequests}
+          />
+        )}
       </div>
       <ToastContainer />
     </div>

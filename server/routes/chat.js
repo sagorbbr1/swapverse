@@ -41,7 +41,7 @@ router.get("/chats/:chatId/messages", authenticate, async (req, res) => {
   try {
     const messages = await Message.find({ chat: req.params.chatId })
       .populate("sender", "fullname")
-      .sort({ createdAt: 1 }); // Sort messages in ascending order (oldest first)
+      .sort({ createdAt: 1 });
     res.json(messages);
   } catch (err) {
     res.status(500).json({ message: "Failed to get messages." });

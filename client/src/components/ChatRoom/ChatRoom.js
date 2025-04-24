@@ -8,6 +8,7 @@ import { Link } from "react-router";
 import { ArrowLeftCircle } from "react-bootstrap-icons";
 import socket from "../../socket";
 import ScrollToBottom from "react-scroll-to-bottom";
+import { HashLoader } from "react-spinners";
 
 const ChatRoom = () => {
   const { user } = useAuth();
@@ -15,21 +16,23 @@ const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [currentChat, setCurrentChat] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchChats = async () => {
       try {
         const response = await axios.get("/api/chats");
         setChats(response.data);
+        setLoading(false);
       } catch (err) {
         console.error("Error fetching chats:", err);
+        setLoading(false);
       }
     };
 
     fetchChats();
   }, []);
 
-  console.log(chats);
   useEffect(() => {
     if (currentChat) {
       const fetchMessages = async () => {
@@ -38,8 +41,10 @@ const ChatRoom = () => {
             `/api/chats/${currentChat._id}/messages`
           );
           setMessages(response.data);
+          setLoading(false);
         } catch (err) {
           console.error("Error fetching messages:", err);
+          setLoading(false);
         }
       };
 
@@ -48,7 +53,6 @@ const ChatRoom = () => {
   }, [currentChat]);
 
   useEffect(() => {
-    console.log("JOINING ROOM:", currentChat?._id);
     if (!socket || !currentChat) return;
 
     socket.emit("join_room", currentChat._id);
@@ -85,6 +89,27 @@ const ChatRoom = () => {
       }
     }
   };
+
+  if (loading)
+    return (
+      <HashLoader
+        className="loader"
+        color={"#36d7b7"}
+        loading={loading}
+        cssOverride={{
+          margin: "0 auto",
+          borderColor: "red",
+
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
 
   return (
     <>
@@ -142,17 +167,18 @@ const ChatRoom = () => {
             <div className="bg-light">
               <ScrollToBottom>
                 <div className="message-list px-4 ">
-                  {messages.map((msg) => (
-                    <div
-                      key={msg._id}
-                      className={`message ${
-                        msg.sender._id === user._id ? "sender" : "receiver"
-                      }`}
-                    >
-                      <strong>{msg.sender.fullname}: </strong>
-                      <span>{msg.content}</span>
-                    </div>
-                  ))}
+                  {messages &&
+                    messages.map((msg) => (
+                      <div
+                        key={msg._id}
+                        className={`message ${
+                          msg.sender._id === user._id ? "sender" : "receiver"
+                        }`}
+                      >
+                        <strong>{msg.sender.fullname}: </strong>
+                        <span>{msg.content}</span>
+                      </div>
+                    ))}
                 </div>
               </ScrollToBottom>
             </div>

@@ -65,7 +65,6 @@ const ItemForm = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // Reset form data after successful item creation
       setFormData({
         title: "",
         description: "",

@@ -45,12 +45,16 @@ const Register = () => {
 
   return (
     <div className="container py-5 d-flex flex-column align-items-center">
-      <img
-        className="logo mb-3"
-        src={logo}
-        alt="logo"
-        style={{ width: "100px" }}
-      />
+      <Link to="/">
+        {" "}
+        <img
+          className="logo mb-3"
+          src={logo}
+          alt="logo"
+          style={{ width: "100px" }}
+        />
+      </Link>
+
       <h5 className="mb-4 fw-semibold text-primary">Register to SwapVerse</h5>
 
       <form
@@ -122,7 +126,10 @@ const Register = () => {
         </button>
 
         <p className="mx-auto mt-3 text-center">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account?{" "}
+          <Link className="text-primary" to="/login">
+            Login
+          </Link>
         </p>
 
         <ToastContainer />

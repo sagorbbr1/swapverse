@@ -4,6 +4,7 @@ import Navbar from "../Navbar/Navbar";
 import { useAuth } from "../AuthContext/AuthContext";
 
 import ItemList from "../ItemList/ItemList";
+import Footer from "../Footer/Footer";
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -14,7 +15,6 @@ const HomePage = () => {
           <div>
             <Navbar />
 
-            {/* Hero Section */}
             <section className="bg-light py-5 text-center">
               <div className="container">
                 <h1 className="display-5 fw-bold text-primary">
@@ -33,7 +33,6 @@ const HomePage = () => {
               </div>
             </section>
 
-            {/* Features Section */}
             <section className="py-5 bg-white">
               <div className="container">
                 <h2 className="text-center mb-4">How It Works</h2>
@@ -63,9 +62,8 @@ const HomePage = () => {
               </div>
             </section>
 
-            {/* Call-to-Action */}
             <section className="bg-info text-white py-5 text-center">
-              <div className="container">
+              <div className="container py-5">
                 <h3>Ready to trade your items?</h3>
                 <p>Sign up now and join the SwapVerse community!</p>
                 <Link
@@ -77,6 +75,8 @@ const HomePage = () => {
               </div>
             </section>
           </div>
+
+          <Footer />
         </>
       )}
       {user && (
