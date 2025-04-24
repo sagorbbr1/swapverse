@@ -1,9 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router";
 
-const MySwapItems = ({ items, userId, handleEditSwap, handleDeleteSwap }) => {
+const MySwapItems = ({
+  items,
+  userId,
+  handleEditSwap,
+  getSearchItems,
+  handleDeleteSwap,
+}) => {
   const navigate = useNavigate();
-  const myItems = items?.filter((item) => item?.user?._id === userId);
+  const myItems = getSearchItems?.filter((item) => item?.user?._id === userId);
 
   return (
     <>

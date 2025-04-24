@@ -8,6 +8,7 @@ const itemRoutes = require("./routes/item");
 const OwnItems = require("./routes/ownItems");
 const swapRoutes = require("./routes/swap");
 const chatRoutes = require("./routes/chat");
+const searchRoutes = require("./routes/search");
 const { app, server } = require("./server");
 
 const User = require("./models/User");
@@ -34,7 +35,7 @@ app.use("/api", userRoutes);
 app.use("/api", OwnItems);
 app.use("/api", itemRoutes);
 app.use("/api", swapRoutes);
-
+app.use("/api", searchRoutes);
 app.use("/api", chatRoutes);
 app.get("/api/items", async (req, res) => {
   try {

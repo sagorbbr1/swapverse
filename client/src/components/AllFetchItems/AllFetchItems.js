@@ -8,12 +8,13 @@ const AllFetchItems = ({
   handleSwapRequest,
   handleDeleteSwap,
   handleEditSwap,
+  getSearchItems,
 }) => {
   const navigate = useNavigate();
   return (
     <>
       {items &&
-        items.map((item) => (
+        getSearchItems.map((item) => (
           <div className="col-md-3 mb-4" key={item._id}>
             <div className="card h-100 shadow-sm">
               {item.image && (

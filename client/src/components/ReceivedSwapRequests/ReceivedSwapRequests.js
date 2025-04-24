@@ -78,7 +78,22 @@ const ReceivedSwapRequests = () => {
     );
 
   if (receivedRequests.length === 0) {
-    return <p>No received swap requests.</p>;
+    return (
+      <>
+        <Navbar />
+        <div className="container d-flex align-items-center">
+          <Link to="/">
+            <ArrowLeftCircle className="back-btn" />
+          </Link>
+
+          <h3 className="text-primary my-4 ms-3">Received Swap Requests</h3>
+        </div>
+
+        <div className="d-flex align-items-center justify-content-center">
+          <h4 className="text-primary">No received swap requests.</h4>
+        </div>
+      </>
+    );
   }
 
   return (

@@ -76,7 +76,9 @@ const SentSwapRequest = () => {
 
         <div className="row">
           {sentRequests.length === 0 ? (
-            <p>No sent swap requests.</p>
+            <div className="text-primary d-flex justify-content-center align-items-center flex-column">
+              <h4>No sent swap requests</h4>
+            </div>
           ) : (
             sentRequests.map((req) => (
               <div className="col-md-4 mb-4" key={req._id}>
@@ -92,10 +94,10 @@ const SentSwapRequest = () => {
                   <div className="card-body">
                     <h5 className="card-title">{req.targetItem?.title}</h5>
                     <p>
-                      <strong>Swap Wish:</strong> {req.targetItem?.swapWishList}
+                      <strong>Details:</strong> {req.targetItem?.description}
                     </p>
                     <p>
-                      <strong>Owner:</strong> {req.targetItem?.user?.fullname}
+                      <strong>Swap Wish:</strong> {req.targetItem?.swapWishList}
                     </p>
                     <p>
                       <strong>Status:</strong> {req.status}

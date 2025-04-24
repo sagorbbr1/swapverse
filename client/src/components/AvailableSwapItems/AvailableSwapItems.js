@@ -6,9 +6,12 @@ const AvailableSwapItems = ({
   userId,
   sentRequests,
   handleSwapRequest,
+  getSearchItems,
 }) => {
   const navigate = useNavigate();
-  const availableItems = items.filter((item) => item?.user?._id !== userId);
+  const availableItems = getSearchItems?.filter(
+    (item) => item?.user?._id !== userId
+  );
 
   return (
     <>

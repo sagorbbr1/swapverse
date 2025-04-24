@@ -8,6 +8,7 @@ import { HashLoader } from "react-spinners";
 import AllFetchItems from "../AllFetchItems/AllFetchItems";
 import AvailableSwapItems from "../AvailableSwapItems/AvailableSwapItems";
 import MySwapItems from "../MySwapItems/MySwapItems";
+import GlobalItemSearch from "../GlobalItemSearch/GlobalItemSearch";
 
 const ItemList = () => {
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ const ItemList = () => {
   const [sentRequests, setSentRequests] = useState([]);
   const [receivedRequests, setReceivedRequests] = useState([]);
   const [selected, setSelected] = useState(0);
+
+  const [getSearchItems, setGetSearchItems] = useState([]);
 
   const fetchItems = async () => {
     try {
@@ -127,10 +130,15 @@ const ItemList = () => {
   if (items.length === 0)
     return (
       <>
-        <h3 className="text-primary">No items available to swap.</h3>{" "}
-        <Link className="btn btn-outline-primary" to="/add_item">
-          Add Item
-        </Link>
+        <div className="container d-flex justify-content-end">
+          {" "}
+          <Link className="btn btn-outline-primary" to="/add_item">
+            Add Item
+          </Link>
+        </div>
+        <div className="d-flex justify-content-center align-items-center ">
+          <h3 className="text-primary">No items available to swap.</h3>{" "}
+        </div>
       </>
     );
 
@@ -173,6 +181,13 @@ const ItemList = () => {
         </div>
 
         <div>
+          <GlobalItemSearch
+            getSearchItems={getSearchItems}
+            setGetSearchItems={setGetSearchItems}
+          />
+        </div>
+
+        <div>
           <Link className="btn btn-outline-danger" to="/sent_request">
             Sent Request
           </Link>
@@ -191,6 +206,7 @@ const ItemList = () => {
         {selected === 0 && (
           <AllFetchItems
             items={items}
+            getSearchItems={getSearchItems}
             user={user}
             sentRequests={sentRequests}
             handleSwapRequest={handleSwapRequest}
@@ -204,6 +220,9 @@ const ItemList = () => {
             userId={user && user?._id}
             handleDeleteSwap={handleDeleteSwap}
             handleEditSwap={handleEditSwap}
+            handleSwapRequest={handleSwapRequest}
+            sentRequests={sentRequests}
+            getSearchItems={getSearchItems}
           />
         )}
         {selected === 2 && (
@@ -212,6 +231,9 @@ const ItemList = () => {
             userId={user && user?._id}
             handleSwapRequest={handleSwapRequest}
             sentRequests={sentRequests}
+            getSearchItems={getSearchItems}
+            handleEditSwap={handleEditSwap}
+            handleDeleteSwap={handleDeleteSwap}
           />
         )}
       </div>
