@@ -26,7 +26,7 @@ const ReceivedSwapRequests = () => {
   const fetchReceivedRequests = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/swap/swap-requests`,
+        `${process.env.REACT_APP_API_URL}/api/swap/swap-requests`,
         {
           withCredentials: true,
         }
@@ -44,7 +44,7 @@ const ReceivedSwapRequests = () => {
   const handleAction = async (requestId, status) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/swap/swap-requests/${requestId}`,
+        `${process.env.REACT_APP_API_URL}/api/swap/swap-requests/${requestId}`,
         { status },
         { withCredentials: true }
       );

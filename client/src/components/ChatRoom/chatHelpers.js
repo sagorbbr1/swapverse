@@ -3,7 +3,7 @@ import axios from "axios";
 export const startChat = async (userId) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/chats`,
+      `${process.env.REACT_APP_API_URL}/api/chats`,
       { userId },
       {
         withCredentials: true,

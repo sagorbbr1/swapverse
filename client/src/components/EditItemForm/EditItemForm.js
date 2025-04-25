@@ -22,9 +22,12 @@ const EditItemForm = () => {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/items/${id}`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/items/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
         setFormData(res.data);
         setLoading(false);
       } catch (err) {
@@ -43,9 +46,13 @@ const EditItemForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/items/${id}`, formData, {
-        withCredentials: true,
-      });
+      await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/items/${id}`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
       toast.success("Item updated successfully!");
       navigate("/");
     } catch (err) {
@@ -94,7 +101,7 @@ const EditItemForm = () => {
           <div className=" shadow-sm w-25">
             <img
               className="w-75"
-              src={`http://localhost:5000/uploads/items/${formData.image}`}
+              src={`${process.env.REACT_APP_API_URL}/uploads/items/${formData.image}`}
               alt="swapImage"
             />
           </div>

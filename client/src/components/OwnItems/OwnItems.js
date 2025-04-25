@@ -13,7 +13,7 @@ const OwnItems = ({
     const fetchMyItems = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/my-items/items`,
+          `${process.env.REACT_APP_API_URL}/api/my-items/items`,
           {
             withCredentials: true,
           }

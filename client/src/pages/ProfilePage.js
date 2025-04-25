@@ -17,7 +17,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/user/profile", {
+      .get(`${process.env.REACT_APP_API_URL}/api/user/profile`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -55,7 +55,7 @@ const ProfilePage = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/user/profile`,
+        `${process.env.REACT_APP_API_URL}/api/user/profile`,
         updateData,
         {
           withCredentials: true,
@@ -115,7 +115,7 @@ const ProfilePage = () => {
             <div className="d-flex align-items-center gap-3 mb-3">
               <img
                 src={
-                  `http://localhost:5000${user.avatar}` ||
+                  `${process.env.REACT_APP_API_URL}${user.avatar}` ||
                   "https://i.postimg.cc/hvvfhPTG/avater.png"
                 }
                 alt="avatar"

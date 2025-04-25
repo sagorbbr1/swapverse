@@ -5,7 +5,7 @@ const LogoutButton = () => {
   const { setUser } = useAuth();
 
   const handleLogout = async () => {
-    await fetch("http://localhost:5000/api/user/logout", {
+    await fetch(`${process.env.REACT_APP_API_URL}/api/user/logout`, {
       method: "POST",
       credentials: "include",
     });
