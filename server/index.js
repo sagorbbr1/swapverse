@@ -9,9 +9,6 @@ const swapRoutes = require("./routes/swap");
 const chatRoutes = require("./routes/chat");
 const searchRoutes = require("./routes/search");
 const { app, server } = require("./server");
-const cors = require("cors");
-
-const allowedOrigins = process.env.CLIENT_URL?.split(",") || [];
 const User = require("./models/User");
 
 const verifyToken = require("./middleware/authenticate");
@@ -21,20 +18,9 @@ const Item = require("./models/Item");
 
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json());
+console.log(process.env.CLIENT_URL);
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
+app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
