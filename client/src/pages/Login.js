@@ -22,7 +22,7 @@ const Login = () => {
     }
 
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
         method: "POST",
         credentials: "include",
         headers: {

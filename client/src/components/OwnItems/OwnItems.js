@@ -12,9 +12,12 @@ const OwnItems = ({
   useEffect(() => {
     const fetchMyItems = async () => {
       try {
-        const res = await axios.get("/api/my-items/items", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/my-items/items`,
+          {
+            withCredentials: true,
+          }
+        );
         setMyItems(res.data);
       } catch (err) {
         console.error("Failed to fetch your items:", err);

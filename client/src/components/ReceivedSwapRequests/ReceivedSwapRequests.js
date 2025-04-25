@@ -25,9 +25,12 @@ const ReceivedSwapRequests = () => {
 
   const fetchReceivedRequests = async () => {
     try {
-      const res = await axios.get("/api/swap-requests", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/swap-requests`,
+        {
+          withCredentials: true,
+        }
+      );
       setReceivedRequests(res.data.received || []);
       setLoading(false);
     } catch (err) {

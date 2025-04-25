@@ -13,7 +13,9 @@ const SwapItemDetail = () => {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const res = await axios.get(`/api/items/${id}`);
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/items/${id}`
+        );
         setItem(res.data);
         setLoading(false);
       } catch (err) {
@@ -72,7 +74,7 @@ const SwapItemDetail = () => {
           </p>
           {item.image && (
             <img
-              src={`/uploads/items/${item.image}`}
+              src={`${process.env.REACT_APP_API_URL}/uploads/items/${item.image}`}
               alt={item.title}
               style={{ maxWidth: "400px", borderRadius: "8px" }}
             />

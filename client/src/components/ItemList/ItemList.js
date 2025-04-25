@@ -25,9 +25,12 @@ const ItemList = () => {
 
   const fetchItems = async () => {
     try {
-      const res = await axios.get("/api/items", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/items`,
+        {
+          withCredentials: true,
+        }
+      );
       setItems(res.data);
       setLoading(false);
     } catch (err) {
@@ -44,7 +47,7 @@ const ItemList = () => {
 
     try {
       const res = await axios.post(
-        "/api/swap",
+        `${process.env.REACT_APP_API_URL}/api/swap`,
         {
           requesterItemId: selectedMyItemId,
           targetItemId: targetItemId,
@@ -73,9 +76,12 @@ const ItemList = () => {
   };
 
   const fetchRequests = async () => {
-    const res = await axios.get("/api/swap-requests", {
-      withCredentials: true,
-    });
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/swap-requests`,
+      {
+        withCredentials: true,
+      }
+    );
     setSentRequests(res.data.sent);
     setReceivedRequests(res.data.received);
   };
@@ -91,7 +97,10 @@ const ItemList = () => {
     if (!confirm) return;
 
     try {
-      await axios.delete(`/api/items/${itemId}`, { withCredentials: true });
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/items/${itemId}`,
+        { withCredentials: true }
+      );
       toast.success("Item deleted successfully!");
 
       fetchItems();

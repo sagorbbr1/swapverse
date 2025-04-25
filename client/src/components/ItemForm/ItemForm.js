@@ -60,10 +60,14 @@ const ItemForm = () => {
     }
 
     try {
-      const res = await axios.post("/api/items", data, {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/items`,
+        data,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       setFormData({
         title: "",

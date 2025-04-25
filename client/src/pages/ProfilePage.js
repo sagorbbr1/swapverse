@@ -52,7 +52,7 @@ const ProfilePage = () => {
     }
 
     try {
-      const res = await axios.put("/api/profile", updateData, {
+      const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/profile`, updateData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",

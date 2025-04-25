@@ -21,7 +21,9 @@ const ChatRoom = () => {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await axios.get("/api/chats");
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/chats`
+        );
         setChats(response.data);
         setLoading(false);
       } catch (err) {
@@ -38,7 +40,7 @@ const ChatRoom = () => {
       const fetchMessages = async () => {
         try {
           const response = await axios.get(
-            `/api/chats/${currentChat._id}/messages`
+            `${process.env.REACT_APP_API_URL}/api/chats/${currentChat._id}/messages`
           );
           setMessages(response.data);
           setLoading(false);

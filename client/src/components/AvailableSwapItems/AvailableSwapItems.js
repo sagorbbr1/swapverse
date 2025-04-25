@@ -22,7 +22,7 @@ const AvailableSwapItems = ({
               {item.image && (
                 <img
                   onClick={() => navigate(`/item/${item._id}`)}
-                  src={`/uploads/items/${item.image}`}
+                  src={`${process.env.REACT_APP_API_URL}/uploads/items/${item.image}`}
                   className="card-img-top"
                   alt={item.title}
                   style={{

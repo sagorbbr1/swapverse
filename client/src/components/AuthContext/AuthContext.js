@@ -10,9 +10,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch("/api/profile", {
-          credentials: "include",
-        });
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/profile`,
+          {
+            credentials: "include",
+          }
+        );
         if (res.ok) {
           const data = await res.json();
           setUser(data);
