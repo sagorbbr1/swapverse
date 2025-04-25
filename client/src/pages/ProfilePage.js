@@ -17,7 +17,9 @@ const ProfilePage = () => {
 
   useEffect(() => {
     axios
-      .get("/api/profile", { withCredentials: true })
+      .get("https://swapverse-back.vercel.app/api/profile", {
+        withCredentials: true,
+      })
       .then((res) => {
         setUser(res.data);
         setFormData({
