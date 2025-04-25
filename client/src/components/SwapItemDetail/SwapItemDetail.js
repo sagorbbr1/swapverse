@@ -14,7 +14,7 @@ const SwapItemDetail = () => {
     const fetchItem = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/items/${id}`
+          `https://swapverse-back.vercel.app/api/items/${id}`
         );
         setItem(res.data);
         setLoading(false);

@@ -61,7 +61,7 @@ const ItemForm = () => {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/items`,
+        `https://swapverse-back.vercel.app/api/items`,
         data,
         {
           withCredentials: true,

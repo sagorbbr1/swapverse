@@ -23,11 +23,14 @@ const Register = () => {
     }
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `https://swapverse-back.vercel.app/api/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await res.json();
 

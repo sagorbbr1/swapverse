@@ -22,7 +22,7 @@ const Login = () => {
     }
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
+      const res = await fetch(`https://swapverse-back.vercel.app/api/login`, {
         method: "POST",
         credentials: "include",
         headers: {

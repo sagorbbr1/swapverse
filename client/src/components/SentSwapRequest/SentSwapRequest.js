@@ -25,9 +25,12 @@ const SentSwapRequest = () => {
 
   const fetchSentRequests = async () => {
     try {
-      const res = await axios.get("/api/swap-requests", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "https://swapverse-back.vercel.app/api/swap-requests",
+        {
+          withCredentials: true,
+        }
+      );
       setSentRequests(res.data.sent);
       setLoading(false);
     } catch (err) {

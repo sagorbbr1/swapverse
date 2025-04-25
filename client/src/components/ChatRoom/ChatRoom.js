@@ -22,7 +22,7 @@ const ChatRoom = () => {
     const fetchChats = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/chats`
+          `https://swapverse-back.vercel.app/api/chats`
         );
         setChats(response.data);
         setLoading(false);
@@ -40,7 +40,7 @@ const ChatRoom = () => {
       const fetchMessages = async () => {
         try {
           const response = await axios.get(
-            `${process.env.REACT_APP_API_URL}/api/chats/${currentChat._id}/messages`
+            `https://swapverse-back.vercel.app/api/chats/${currentChat._id}/messages`
           );
           setMessages(response.data);
           setLoading(false);
@@ -76,7 +76,7 @@ const ChatRoom = () => {
     if (newMessage.trim()) {
       try {
         const response = await axios.post(
-          `/api/chats/${currentChat._id}/messages`,
+          `https://swapverse-back.vercel.app/api/chats/${currentChat._id}/messages`,
           { content: newMessage }
         );
 

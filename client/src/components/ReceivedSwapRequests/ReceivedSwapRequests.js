@@ -26,7 +26,7 @@ const ReceivedSwapRequests = () => {
   const fetchReceivedRequests = async () => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/swap-requests`,
+        `https://swapverse-back.vercel.app/api/swap-requests`,
         {
           withCredentials: true,
         }
@@ -43,7 +43,7 @@ const ReceivedSwapRequests = () => {
   const handleAction = async (requestId, status) => {
     try {
       await axios.put(
-        `/api/swap-requests/${requestId}`,
+        `https://swapverse-back.vercel.app/api/swap-requests/${requestId}`,
         { status },
         { withCredentials: true }
       );

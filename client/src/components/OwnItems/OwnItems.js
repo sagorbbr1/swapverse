@@ -13,7 +13,7 @@ const OwnItems = ({
     const fetchMyItems = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/my-items/items`,
+          `https://swapverse-back.vercel.app/api/my-items/items`,
           {
             withCredentials: true,
           }

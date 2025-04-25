@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       try {
         const res = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/profile`,
+          `https://swapverse-back.vercel.app/api/profile`,
           {
             credentials: "include",
           }

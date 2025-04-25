@@ -5,7 +5,7 @@ const LogoutButton = () => {
   const { setUser } = useAuth();
 
   const handleLogout = async () => {
-    await fetch("/api/logout", {
+    await fetch("https://swapverse-back.vercel.app/api/logout", {
       method: "POST",
       credentials: "include",
     });

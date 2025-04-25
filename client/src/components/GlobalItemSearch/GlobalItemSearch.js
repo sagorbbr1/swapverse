@@ -7,7 +7,9 @@ const GlobalItemSearch = ({ getSearchItems, setGetSearchItems }) => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const res = await axios.get(`/api/search?search=${searchTerm}`);
+        const res = await axios.get(
+          `https://swapverse-back.vercel.app/api/search?search=${searchTerm}`
+        );
         setGetSearchItems(res.data);
       } catch (err) {
         console.error("Error fetching items:", err);

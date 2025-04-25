@@ -52,12 +52,16 @@ const ProfilePage = () => {
     }
 
     try {
-      const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/profile`, updateData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await axios.put(
+        `https://swapverse-back.vercel.app/api/profile`,
+        updateData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       setUser(res.data);
       setFormData({

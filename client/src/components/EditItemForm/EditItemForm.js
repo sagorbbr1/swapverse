@@ -23,7 +23,7 @@ const EditItemForm = () => {
     const fetchItem = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/items/${id}`
+          `https://swapverse-back.vercel.app/api/items/${id}`
         );
         setFormData(res.data);
         setLoading(false);
@@ -44,7 +44,7 @@ const EditItemForm = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `${process.env.REACT_APP_API_URL}/api/items/${id}`,
+        `https://swapverse-back.vercel.app/api/items/${id}`,
         formData,
         {
           withCredentials: true,
