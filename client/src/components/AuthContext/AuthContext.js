@@ -14,8 +14,12 @@ export const AuthProvider = ({ children }) => {
           `https://swapverse-back.vercel.app/api/profile`,
           {
             credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
         );
+
         if (res.ok) {
           const data = await res.json();
           setUser(data);
