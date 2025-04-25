@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-router.put("/profile", upload.single("avatar"), async (req, res) => {
+router.put("/user/profile", upload.single("avatar"), async (req, res) => {
   try {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: "Unauthorized" });

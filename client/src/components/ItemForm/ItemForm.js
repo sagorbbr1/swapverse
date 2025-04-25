@@ -60,14 +60,10 @@ const ItemForm = () => {
     }
 
     try {
-      const res = await axios.post(
-        `https://swapverse-back.vercel.app/api/items`,
-        data,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const res = await axios.post(`http://localhost:5000/api/items`, data, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       setFormData({
         title: "",

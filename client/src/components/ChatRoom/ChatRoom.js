@@ -21,9 +21,9 @@ const ChatRoom = () => {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await axios.get(
-          `https://swapverse-back.vercel.app/api/chats`
-        );
+        const response = await axios.get("http://localhost:5000/api/chats", {
+          withCredentials: true,
+        });
         setChats(response.data);
         setLoading(false);
       } catch (err) {
@@ -40,7 +40,10 @@ const ChatRoom = () => {
       const fetchMessages = async () => {
         try {
           const response = await axios.get(
-            `https://swapverse-back.vercel.app/api/chats/${currentChat._id}/messages`
+            `http://localhost:5000/api/chats/${currentChat._id}/messages`,
+            {
+              withCredentials: true,
+            }
           );
           setMessages(response.data);
           setLoading(false);
@@ -60,7 +63,6 @@ const ChatRoom = () => {
     socket.emit("join_room", currentChat._id);
 
     const handleReceive = (message) => {
-      console.log("Received:", message);
       setMessages((prevMessages) => [...prevMessages, message]);
     };
 
@@ -76,8 +78,11 @@ const ChatRoom = () => {
     if (newMessage.trim()) {
       try {
         const response = await axios.post(
-          `https://swapverse-back.vercel.app/api/chats/${currentChat._id}/messages`,
-          { content: newMessage }
+          `http://localhost:5000/api/chats/${currentChat._id}/messages`,
+          { content: newMessage },
+          {
+            withCredentials: true,
+          }
         );
 
         socket.emit("send_message", {

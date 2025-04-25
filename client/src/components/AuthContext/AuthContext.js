@@ -10,15 +10,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch(
-          `https://swapverse-back.vercel.app/api/profile`,
-          {
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const res = await fetch(`http://localhost:5000/api/user/profile`, {
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (res.ok) {
           const data = await res.json();

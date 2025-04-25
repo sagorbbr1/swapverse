@@ -12,41 +12,34 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-router.post(
-  "/items",
-  authenticate,
-  upload.single("image"),
-  async (req, res) => {
-    const { title, description, category, condition, swapWishList } = req.body;
+router.post("/", authenticate, upload.single("image"), async (req, res) => {
+  const { title, description, category, condition, swapWishList } = req.body;
 
-    if (!title || !description || !category || !condition || !swapWishList) {
-      return res.status(400).json({ message: "All fields are required." });
-    }
-
-    try {
-      const image = req.file ? req.file.filename : "";
-
-      const item = new Item({
-        user: req.user.id,
-        title,
-        description,
-        category,
-        condition,
-        swapWishList,
-        image,
-      });
-
-      await item.save();
-      res.status(201).json(item);
-    } catch (err) {
-      res.status(500).json({ message: "Server error", error: err.message });
-    }
+  if (!title || !description || !category || !condition || !swapWishList) {
+    return res.status(400).json({ message: "All fields are required." });
   }
-);
 
-//Get Item
+  try {
+    const image = req.file ? req.file.filename : "";
 
-router.get("/items/:id", authenticate, async (req, res) => {
+    const item = new Item({
+      user: req.user.id,
+      title,
+      description,
+      category,
+      condition,
+      swapWishList,
+      image,
+    });
+
+    await item.save();
+    res.status(201).json(item);
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+router.get("/:id", authenticate, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id).populate("user", ["name"]);
     if (!item) return res.status(404).json({ message: "Item not found." });
@@ -57,7 +50,7 @@ router.get("/items/:id", authenticate, async (req, res) => {
   }
 });
 
-router.put("/items/:id", authenticate, async (req, res) => {
+router.put("/:id", authenticate, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ message: "Item not found." });
@@ -81,7 +74,7 @@ router.put("/items/:id", authenticate, async (req, res) => {
   }
 });
 
-router.delete("/items/:id", authenticate, async (req, res) => {
+router.delete("/:id", authenticate, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ message: "Item not found." });

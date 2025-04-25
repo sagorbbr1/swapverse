@@ -20,7 +20,7 @@ const AllFetchItems = ({
               {item.image && (
                 <img
                   onClick={() => navigate(`/item/${item._id}`)}
-                  src={`${process.env.REACT_APP_API_URL}/uploads/items/${item.image}`}
+                  src={`http://localhost:5000/uploads/items/${item.image}`}
                   className="card-img-top"
                   alt={item.title}
                   style={{

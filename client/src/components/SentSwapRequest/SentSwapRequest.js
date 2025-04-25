@@ -26,7 +26,7 @@ const SentSwapRequest = () => {
   const fetchSentRequests = async () => {
     try {
       const res = await axios.get(
-        "https://swapverse-back.vercel.app/api/swap-requests",
+        "http://localhost:5000/api/swap/swap-requests",
         {
           withCredentials: true,
         }
@@ -88,7 +88,7 @@ const SentSwapRequest = () => {
                 <div className="card shadow-sm">
                   {req.targetItem?.image && (
                     <img
-                      src={`${process.env.REACT_APP_API_URL}/uploads/items/${req.targetItem.image}`}
+                      src={`http://localhost:5000/uploads/items/${req.targetItem.image}`}
                       className="card-img-top"
                       alt={req.targetItem.title}
                       style={{ height: "200px", objectFit: "cover" }}

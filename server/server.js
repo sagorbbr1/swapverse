@@ -1,8 +1,8 @@
 const express = require("express");
 const http = require("http");
-const dotenv = require("dotenv");
+require("dotenv").config();
 const { Server } = require("socket.io");
-dotenv.config();
+
 const app = express();
 const server = http.createServer(app);
 

@@ -10,7 +10,7 @@ const chatRoutes = require("./routes/chat");
 const searchRoutes = require("./routes/search");
 const { app, server } = require("./server");
 const User = require("./models/User");
-
+const cors = require("cors");
 const verifyToken = require("./middleware/authenticate");
 
 const cookieParser = require("cookie-parser");
@@ -20,6 +20,13 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 mongoose
@@ -28,13 +35,13 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 app.use("/uploads", express.static("uploads"));
-app.use("/api", authRoutes);
-app.use("/api", userRoutes);
-app.use("/api", OwnItems);
-app.use("/api", itemRoutes);
-app.use("/api", swapRoutes);
-app.use("/api", searchRoutes);
-app.use("/api", chatRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/my-items", OwnItems);
+app.use("/api/items", itemRoutes);
+app.use("/api/swap", swapRoutes);
+app.use("/api/search", searchRoutes);
+app.use("/api/chats", chatRoutes);
 app.get("/api/items", async (req, res) => {
   try {
     const items = await Item.find()
@@ -48,12 +55,12 @@ app.get("/api/items", async (req, res) => {
   }
 });
 
-app.get("/api/profile", verifyToken, async (req, res) => {
+app.get("/api/user/profile", verifyToken, async (req, res) => {
   const user = await User.findById(req.user.id).select("-password");
   res.json(user);
 });
 
-app.post("/api/logout", (req, res) => {
+app.post("/api/user/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

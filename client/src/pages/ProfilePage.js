@@ -17,7 +17,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     axios
-      .get("https://swapverse-back.vercel.app/api/profile", {
+      .get("http://localhost:5000/api/user/profile", {
         withCredentials: true,
       })
       .then((res) => {
@@ -55,7 +55,7 @@ const ProfilePage = () => {
 
     try {
       const res = await axios.put(
-        `https://swapverse-back.vercel.app/api/profile`,
+        `http://localhost:5000/api/user/profile`,
         updateData,
         {
           withCredentials: true,
@@ -114,7 +114,10 @@ const ProfilePage = () => {
             </div>
             <div className="d-flex align-items-center gap-3 mb-3">
               <img
-                src={user.avatar || "https://i.postimg.cc/hvvfhPTG/avater.png"}
+                src={
+                  `http://localhost:5000${user.avatar}` ||
+                  "https://i.postimg.cc/hvvfhPTG/avater.png"
+                }
                 alt="avatar"
                 className="rounded-circle"
                 style={{ width: "100px", height: "100px", objectFit: "cover" }}

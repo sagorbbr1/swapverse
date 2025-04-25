@@ -25,12 +25,9 @@ const ItemList = () => {
 
   const fetchItems = async () => {
     try {
-      const res = await axios.get(
-        `https://swapverse-back.vercel.app/api/items`,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`http://localhost:5000/api/items`, {
+        withCredentials: true,
+      });
       setItems(res.data);
       setLoading(false);
     } catch (err) {
@@ -47,7 +44,7 @@ const ItemList = () => {
 
     try {
       const res = await axios.post(
-        `https://swapverse-back.vercel.app/api/swap`,
+        `http://localhost:5000/api/swap/swap`,
         {
           requesterItemId: selectedMyItemId,
           targetItemId: targetItemId,
@@ -77,7 +74,7 @@ const ItemList = () => {
 
   const fetchRequests = async () => {
     const res = await axios.get(
-      `https://swapverse-back.vercel.app/api/swap-requests`,
+      `http://localhost:5000/api/swap/swap-requests`,
       {
         withCredentials: true,
       }
@@ -97,10 +94,9 @@ const ItemList = () => {
     if (!confirm) return;
 
     try {
-      await axios.delete(
-        `https://swapverse-back.vercel.app/api/items/${itemId}`,
-        { withCredentials: true }
-      );
+      await axios.delete(`http://localhost:5000/api/items/${itemId}`, {
+        withCredentials: true,
+      });
       toast.success("Item deleted successfully!");
 
       fetchItems();

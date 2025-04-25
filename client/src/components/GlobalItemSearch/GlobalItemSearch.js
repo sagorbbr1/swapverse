@@ -8,7 +8,10 @@ const GlobalItemSearch = ({ getSearchItems, setGetSearchItems }) => {
     const fetchItems = async () => {
       try {
         const res = await axios.get(
-          `https://swapverse-back.vercel.app/api/search?search=${searchTerm}`
+          `http://localhost:5000/api/search?search=${searchTerm}`,
+          {
+            withCredentials: true,
+          }
         );
         setGetSearchItems(res.data);
       } catch (err) {

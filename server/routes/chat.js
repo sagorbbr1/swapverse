@@ -4,7 +4,7 @@ const authenticate = require("../middleware/authenticate");
 const Chat = require("../models/Chat");
 const Message = require("../models/Message");
 
-router.get("/chats", authenticate, async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
   try {
     const chats = await Chat.find({ users: req.user.id }).populate(
       "users",
@@ -16,7 +16,7 @@ router.get("/chats", authenticate, async (req, res) => {
   }
 });
 
-router.post("/chats", authenticate, async (req, res) => {
+router.post("/", authenticate, async (req, res) => {
   try {
     const { userId } = req.body;
 
@@ -37,7 +37,7 @@ router.post("/chats", authenticate, async (req, res) => {
   }
 });
 
-router.get("/chats/:chatId/messages", authenticate, async (req, res) => {
+router.get("/:chatId/messages", authenticate, async (req, res) => {
   try {
     const messages = await Message.find({ chat: req.params.chatId })
       .populate("sender", "fullname")
@@ -48,7 +48,7 @@ router.get("/chats/:chatId/messages", authenticate, async (req, res) => {
   }
 });
 
-router.post("/chats/:chatId/messages", authenticate, async (req, res) => {
+router.post("/:chatId/messages", authenticate, async (req, res) => {
   try {
     const { content } = req.body;
 

@@ -3,7 +3,7 @@ const router = express.Router();
 const Item = require("../models/Item.js");
 
 const authenticate = require("../middleware/authenticate.js");
-router.get("/my-items/items", authenticate, async (req, res) => {
+router.get("/items", authenticate, async (req, res) => {
   try {
     const items = await Item.find({ user: req.user.id }).populate("user", [
       "title",
