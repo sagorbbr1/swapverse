@@ -8,9 +8,27 @@ const server = http.createServer(app);
 
 const cors = require("cors");
 
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL,
+//     credentials: true,
+//   })
+// );
+
+const allowedOrigins = [
+  "https://swapverse-vjn1.vercel.app",
+  "https://swapverse-vjn1-git-master-mohammad-sagors-projects.vercel.app",
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
