@@ -18,8 +18,6 @@ const Item = require("./models/Item");
 
 const PORT = process.env.PORT || 5000;
 
-console.log(process.env.CLIENT_URL);
-
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
