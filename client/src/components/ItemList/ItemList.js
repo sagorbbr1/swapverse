@@ -143,102 +143,105 @@ const ItemList = () => {
     );
 
   return (
-    <div className="container mt-4 ">
-      <OwnItems
-        selectedMyItemId={selectedMyItemId}
-        setSelectedMyItemId={setSelectedMyItemId}
-        myItems={myItems}
-        setMyItems={setMyItems}
-      />
+    <>
+      <div className="container mt-4 ">
+        <OwnItems
+          selectedMyItemId={selectedMyItemId}
+          setSelectedMyItemId={setSelectedMyItemId}
+          myItems={myItems}
+          setMyItems={setMyItems}
+        />
 
-      <h3 className="text-primary">Items Available for Swap</h3>
-      <div className="d-flex justify-content-between my-4">
-        <div>
-          <button
-            onClick={() => setSelected(0)}
-            className={`btn ${
-              selected === 0 ? "btn-primary" : "btn-outline-primary"
-            }`}
-          >
-            All Items
-          </button>
-          <button
-            onClick={() => setSelected(1)}
-            className={`btn ${
-              selected === 1 ? "btn-primary" : "btn-outline-primary"
-            } ms-2`}
-          >
-            Swap Items
-          </button>
-          <button
-            onClick={() => setSelected(2)}
-            className={`btn ${
-              selected === 2 ? "btn-primary" : "btn-outline-primary"
-            } ms-2`}
-          >
-            My Items
-          </button>
+        <h3 className="text-primary">Items Available for Swap</h3>
+        <div className="d-flex justify-content-between align-items-md-center  my-4">
+          <div className="d-flex align-items-start align-items-md-center flex-column flex-md-row gap-2">
+            <button
+              onClick={() => setSelected(0)}
+              className={`btn ${
+                selected === 0 ? "btn-primary" : "btn-outline-primary"
+              }`}
+            >
+              All Items
+            </button>
+            <button
+              onClick={() => setSelected(1)}
+              className={`btn ${
+                selected === 1 ? "btn-primary" : "btn-outline-primary"
+              }`}
+            >
+              Swap Items
+            </button>
+            <button
+              onClick={() => setSelected(2)}
+              className={`btn ${
+                selected === 2 ? "btn-primary" : "btn-outline-primary"
+              } `}
+            >
+              My Items
+            </button>
+          </div>
+
+          <div className="d-none d-md-flex align-items-center">
+            <GlobalItemSearch
+              className="global-search-inpu"
+              getSearchItems={getSearchItems}
+              setGetSearchItems={setGetSearchItems}
+            />
+          </div>
+
+          <div className="d-flex align-items-end align-items-md-center flex-column flex-md-row gap-2">
+            <Link className="btn btn-outline-danger" to="/sent_request">
+              Sent Request
+            </Link>
+
+            <Link className="btn btn-outline-danger " to="/received_request">
+              Received Request
+            </Link>
+
+            <Link className=" btn btn-outline-primary" to="/add_item">
+              Add Item
+            </Link>
+          </div>
         </div>
 
-        <div>
-          <GlobalItemSearch
-            getSearchItems={getSearchItems}
-            setGetSearchItems={setGetSearchItems}
-          />
+        <div className="row">
+          {selected === 0 && (
+            <AllFetchItems
+              items={items}
+              getSearchItems={getSearchItems}
+              user={user}
+              sentRequests={sentRequests}
+              handleSwapRequest={handleSwapRequest}
+              handleEditSwap={handleEditSwap}
+              handleDeleteSwap={handleDeleteSwap}
+            />
+          )}
+          {selected === 1 && (
+            <AvailableSwapItems
+              items={items}
+              userId={user && user?._id}
+              handleDeleteSwap={handleDeleteSwap}
+              handleEditSwap={handleEditSwap}
+              handleSwapRequest={handleSwapRequest}
+              sentRequests={sentRequests}
+              getSearchItems={getSearchItems}
+            />
+          )}
+          {selected === 2 && (
+            <MySwapItems
+              items={items}
+              userId={user && user?._id}
+              handleSwapRequest={handleSwapRequest}
+              sentRequests={sentRequests}
+              getSearchItems={getSearchItems}
+              handleEditSwap={handleEditSwap}
+              handleDeleteSwap={handleDeleteSwap}
+            />
+          )}
         </div>
-
-        <div>
-          <Link className="btn btn-outline-danger" to="/sent_request">
-            Sent Request
-          </Link>
-
-          <Link className="btn btn-outline-danger ms-2" to="/received_request">
-            Received Request
-          </Link>
-
-          <Link className="ms-2 btn btn-outline-primary" to="/add_item">
-            Add Item
-          </Link>
-        </div>
+        <ToastContainer />
       </div>
-
-      <div className="row">
-        {selected === 0 && (
-          <AllFetchItems
-            items={items}
-            getSearchItems={getSearchItems}
-            user={user}
-            sentRequests={sentRequests}
-            handleSwapRequest={handleSwapRequest}
-            handleEditSwap={handleEditSwap}
-            handleDeleteSwap={handleDeleteSwap}
-          />
-        )}
-        {selected === 1 && (
-          <AvailableSwapItems
-            items={items}
-            userId={user && user?._id}
-            handleDeleteSwap={handleDeleteSwap}
-            handleEditSwap={handleEditSwap}
-            handleSwapRequest={handleSwapRequest}
-            sentRequests={sentRequests}
-            getSearchItems={getSearchItems}
-          />
-        )}
-        {selected === 2 && (
-          <MySwapItems
-            items={items}
-            userId={user && user?._id}
-            handleSwapRequest={handleSwapRequest}
-            sentRequests={sentRequests}
-            getSearchItems={getSearchItems}
-            handleEditSwap={handleEditSwap}
-            handleDeleteSwap={handleDeleteSwap}
-          />
-        )}
-      </div>
-      <ToastContainer />
-    </div>
+    </>
   );
 };
 

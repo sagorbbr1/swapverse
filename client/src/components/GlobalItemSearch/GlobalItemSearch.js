@@ -18,15 +18,15 @@ const GlobalItemSearch = ({ getSearchItems, setGetSearchItems }) => {
   }, [searchTerm]);
 
   return (
-    <div>
+    <>
       <input
         type="text"
-        className="form-control mb-4"
+        className="form-control"
         placeholder="Search items globally..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-    </div>
+    </>
   );
 };
 

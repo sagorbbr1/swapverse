@@ -115,87 +115,98 @@ const ChatRoom = () => {
     <>
       <Navbar />
 
-      <div className="chat-container">
-        <div className="chat-list">
-          <h6 className="text-center text-primary mb-4">
-            Available chat users
-          </h6>
+      <div className="container py-3">
+        <div className="row">
+          <div className="col-12 col-md-4 mb-3">
+            <div className="chat-list bg-white p-3 rounded shadow-sm h-100">
+              <h6 className="text-center text-primary mb-4">
+                Available chat users
+              </h6>
 
-          {chats &&
-            [
-              ...new Map(
-                chats
-                  .map((chat) => {
-                    const otherUser = chat.users.find(
-                      (u) => u._id !== user._id
-                    );
-
-                    return otherUser
-                      ? [otherUser._id, { chat, otherUser }]
-                      : null;
-                  })
-                  .filter(Boolean)
-              ).values(),
-            ].map(({ chat, otherUser }) => (
-              <div
-                key={chat._id}
-                onClick={() => setCurrentChat(chat)}
-                className="chat-item bg-primary-subtle my-2 p-2 rounded"
-              >
-                Chat with {otherUser.fullname}
-              </div>
-            ))}
-        </div>
-
-        {currentChat && (
-          <div className="chat-window shadow-lg  w-50 mx-auto position-relative">
-            <div className=" d-flex align-items-center border">
-              <div className="d-flex align-items-center">
-                <Link to="/received_request">
-                  <ArrowLeftCircle className="back-btn" />
-                </Link>
-
-                <h5 className="text-center text-primary m-0 ms-2">
-                  {currentChat?.users
-                    ?.map((user) => user.fullname)
-
-                    .filter((name) => name !== user.fullname)}
-                </h5>
-              </div>
-            </div>
-
-            <div className="bg-light">
-              <ScrollToBottom>
-                <div className="message-list px-4 ">
-                  {messages &&
-                    messages.map((msg) => (
-                      <div
-                        key={msg._id}
-                        className={`message ${
-                          msg.sender._id === user._id ? "sender" : "receiver"
-                        }`}
-                      >
-                        <strong>{msg.sender.fullname}: </strong>
-                        <span>{msg.content}</span>
-                      </div>
-                    ))}
-                </div>
-              </ScrollToBottom>
-            </div>
-
-            <div className="message-input position-absolute bottom-0 start-50 translate-middle-x mb-3 d-flex gap-2">
-              <input
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Type a message"
-              />
-              <button className="btn btn-success" onClick={handleSendMessage}>
-                Send
-              </button>
+              {chats &&
+                [
+                  ...new Map(
+                    chats
+                      .map((chat) => {
+                        const otherUser = chat.users.find(
+                          (u) => u?._id !== user?._id
+                        );
+                        return otherUser
+                          ? [otherUser._id, { chat, otherUser }]
+                          : null;
+                      })
+                      .filter(Boolean)
+                  ).values(),
+                ].map(({ chat, otherUser }) => (
+                  <div
+                    key={chat._id}
+                    onClick={() => setCurrentChat(chat)}
+                    className="chat-item bg-primary-subtle my-2 p-2 rounded"
+                    style={{ cursor: "pointer" }}
+                  >
+                    Chat with {otherUser.fullname}
+                  </div>
+                ))}
             </div>
           </div>
-        )}
+
+          {currentChat && (
+            <div className="col-12 col-md-8">
+              <div
+                className="chat-window bg-white rounded shadow p-3 d-flex flex-column justify-content-between"
+                style={{ minHeight: "500px" }}
+              >
+                <div className="d-flex align-items-center border-bottom pb-2 mb-2">
+                  <Link to="/received_request">
+                    <ArrowLeftCircle className="me-2" />
+                  </Link>
+                  <h5 className="text-primary m-0">
+                    {currentChat?.users
+                      ?.map((u) => u.fullname)
+                      .filter((name) => name !== user.fullname)}
+                  </h5>
+                </div>
+
+                <div className="message-box flex-grow-1 overflow-auto mb-3">
+                  <ScrollToBottom>
+                    <div className="message-list px-3 py-2">
+                      {messages &&
+                        messages.map((msg) => (
+                          <div
+                            key={msg._id}
+                            className={`p-2 message mb-2 ${
+                              msg.sender?._id === user?._id
+                                ? "text-end sender"
+                                : "text-start receiver"
+                            }`}
+                          >
+                            <strong>{msg.sender.fullname}:</strong>{" "}
+                            {msg.content}
+                          </div>
+                        ))}
+                    </div>
+                  </ScrollToBottom>
+                </div>
+
+                <div className="message-input w-50 mx-auto d-flex gap-2">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Type a message"
+                  />
+                  <button
+                    className="btn btn-success"
+                    onClick={handleSendMessage}
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

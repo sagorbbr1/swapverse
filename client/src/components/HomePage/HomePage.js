@@ -2,9 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import { useAuth } from "../AuthContext/AuthContext";
-
-import ItemList from "../ItemList/ItemList";
 import Footer from "../Footer/Footer";
+import ItemList from "../ItemList/ItemList";
 
 const HomePage = () => {
   const { user } = useAuth();
