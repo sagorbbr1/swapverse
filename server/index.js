@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const dotenv = require("dotenv");
+
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const itemRoutes = require("./routes/item");
@@ -14,7 +14,7 @@ const { app, server } = require("./server");
 const User = require("./models/User");
 
 const verifyToken = require("./middleware/authenticate");
-dotenv.config();
+
 const cookieParser = require("cookie-parser");
 const Item = require("./models/Item");
 
