@@ -26,6 +26,7 @@ const Register = () => {
       const res = await fetch(
         `${process.env.REACT_APP_API_URL}/api/auth/register`,
         {
+          credentials: "include",
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
