@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar/Navbar";
-import { useAuth } from "../AuthContext/AuthContext";
-import Footer from "../Footer/Footer";
-import ItemList from "../ItemList/ItemList";
+import Navbar from "../../components/Navbar/Navbar";
+import { useAuth } from "../../hooks/AuthContext/AuthContext";
+import Footer from "../../components/Footer/Footer";
+import ItemList from "../../components/ItemList/ItemList";
 
 const HomePage = () => {
   const { user } = useAuth();

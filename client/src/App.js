@@ -1,17 +1,17 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import "./App.css";
-import HomePage from "./components/HomePage/HomePage";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import NoPage from "./pages/NotFound";
-import { AuthProvider } from "./components/AuthContext/AuthContext";
-import ProfilePage from "./pages/ProfilePage";
-import ItemForm from "./components/ItemForm/ItemForm";
-import EditItemForm from "./components/EditItemForm/EditItemForm";
-import ReceivedSwapRequests from "./components/ReceivedSwapRequests/ReceivedSwapRequests";
+import HomePage from "./pages/HomePage/HomePage";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import NoPage from "./pages/NoPage/NotFound";
+import { AuthProvider } from "./hooks/AuthContext/AuthContext";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import ItemForm from "./pages/ItemForm/ItemForm";
+import EditItemForm from "./pages/EditItemForm/EditItemForm";
+import ReceivedSwapRequests from "./pages/ReceivedSwapRequests/ReceivedSwapRequests";
 import SentSwapRequest from "./components/SentSwapRequest/SentSwapRequest";
-import ChatRoom from "./components/ChatRoom/ChatRoom";
-import SwapItemDetail from "./components/SwapItemDetail/SwapItemDetail";
+import ChatRoom from "./pages/ChatRoom/ChatRoom";
+import SwapItemDetail from "./pages/SwapItemDetail/SwapItemDetail";
 
 function App() {
   return (
@@ -29,7 +29,6 @@ function App() {
           <Route path="/sent_request" element={<SentSwapRequest />} />
           <Route path="/chat/:chatId" element={<ChatRoom />} />
           <Route path="/item/:id" element={<SwapItemDetail />} />
-
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

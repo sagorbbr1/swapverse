@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { HashLoader } from "react-spinners";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import { ArrowLeftCircle } from "react-bootstrap-icons";
 
 const SwapItemDetail = () => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import { XOctagon } from "react-bootstrap-icons";
 import { Link } from "react-router";
 import { HashLoader } from "react-spinners";

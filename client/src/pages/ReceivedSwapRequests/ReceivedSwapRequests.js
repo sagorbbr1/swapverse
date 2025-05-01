@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import { useAuth } from "../AuthContext/AuthContext";
+import { useAuth } from "../../hooks/AuthContext/AuthContext";
 import { Link, useNavigate } from "react-router";
 import { ArrowLeftCircle } from "react-bootstrap-icons";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import { HashLoader } from "react-spinners";
 import { startChat } from "../ChatRoom/chatHelpers";
 

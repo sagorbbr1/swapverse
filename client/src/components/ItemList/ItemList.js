@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router";
-import { useAuth } from "../AuthContext/AuthContext";
+import { useAuth } from "../../hooks/AuthContext/AuthContext";
 import OwnItems from "../OwnItems/OwnItems";
 import { HashLoader } from "react-spinners";
 import AllFetchItems from "../AllFetchItems/AllFetchItems";
 import AvailableSwapItems from "../AvailableSwapItems/AvailableSwapItems";
-import MySwapItems from "../MySwapItems/MySwapItems";
+import MySwapItems from "../../pages/MySwapItems/MySwapItems";
 import GlobalItemSearch from "../GlobalItemSearch/GlobalItemSearch";
 
 const ItemList = () => {

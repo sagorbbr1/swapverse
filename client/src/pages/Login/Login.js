@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import logo from "../logo.png";
+import logo from "../../../src/logo.png";
+import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router";
 
-const Register = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
-    fullname: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -17,33 +15,36 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      toast("Passwords do not match!");
+    const { email, password } = formData;
+    if (!email || !password) {
+      toast("All fields are required!");
       return;
     }
 
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/auth/register`,
+        `${process.env.REACT_APP_API_URL}/api/auth/login`,
         {
-          credentials: "include",
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
         }
       );
 
       const data = await res.json();
 
       if (res.ok) {
-        toast("Registration successful!");
+        toast("Login successful!");
         window.location.href = "/";
       } else {
         toast(data.message);
       }
     } catch (err) {
+      console.error("Login error:", err);
       toast("Something went wrong!");
-      console.error("Registration error:", err);
     }
   };
 
@@ -58,28 +59,13 @@ const Register = () => {
           style={{ width: "100px" }}
         />
       </Link>
-
-      <h5 className="mb-4 fw-semibold text-primary">Register to SwapVerse</h5>
+      <h4 className="mb-4 fw-semibold text-primary">Login to SwapVerse</h4>
 
       <form
         className="w-100"
         style={{ maxWidth: "400px" }}
         onSubmit={handleSubmit}
       >
-        <div className="form-floating mb-3">
-          <input
-            type="text"
-            className="form-control"
-            id="fullname"
-            name="fullname"
-            placeholder="Full Name"
-            value={formData.fullname}
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="fullname">Full Name</label>
-        </div>
-
         <div className="form-floating mb-3">
           <input
             type="email"
@@ -94,7 +80,7 @@ const Register = () => {
           <label htmlFor="email">Email address</label>
         </div>
 
-        <div className="form-floating mb-3">
+        <div className="form-floating mb-4">
           <input
             type="password"
             className="form-control"
@@ -108,38 +94,22 @@ const Register = () => {
           <label htmlFor="password">Password</label>
         </div>
 
-        <div className="form-floating mb-4">
-          <input
-            type="password"
-            className="form-control"
-            id="confirmPassword"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="confirmPassword">Confirm Password</label>
-        </div>
-
         <button
           type="submit"
           className="btn btn-info text-white w-100 fw-semibold py-2"
         >
-          Register
+          Login
         </button>
-
         <p className="mx-auto mt-3 text-center">
-          Already have an account?{" "}
-          <Link className="text-primary" to="/login">
-            Login
+          No account?{" "}
+          <Link className="text-primary" to="/register">
+            Create One
           </Link>
         </p>
-
         <ToastContainer />
       </form>
     </div>
   );
 };
 
-export default Register;
+export default Login;

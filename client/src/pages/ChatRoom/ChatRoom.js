@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import "./ChatRoom.css";
-import Navbar from "../Navbar/Navbar";
-import { useAuth } from "../AuthContext/AuthContext";
+import Navbar from "../../components/Navbar/Navbar";
+import { useAuth } from "../../hooks/AuthContext/AuthContext";
 import { Link } from "react-router";
 import { ArrowLeftCircle } from "react-bootstrap-icons";
 import socket from "../../socket";

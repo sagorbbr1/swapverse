@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../AuthContext/AuthContext";
-import LogoutButton from "../../pages/LogoutButton";
+import { useAuth } from "../../hooks/AuthContext/AuthContext";
+import LogoutButton from "../LogoutButton/LogoutButton";
 import logo from "../../../src/logo.png";
 
 const Navbar = () => {
